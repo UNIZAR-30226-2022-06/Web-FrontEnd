@@ -47,7 +47,7 @@ export default class Login extends Component {
                 </div>
                 <br></br>
                 <div class="d-grid gap-2"> 
-                    <button type="submit" className="btn btn-primary btn-block">Iniciar sesión</button>
+                    <a type="submit" className="btn btn-primary btn-block" href={"/profile"}>Iniciar sesión</a>
                 </div>
                 <p className="forgot-password text-right">
                     ¿Has olvidado tu contraseña? <a href={"/reset"}>Recuperar</a>

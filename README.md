@@ -1,3 +1,28 @@
+# Pasos para ejecutar el código:
+
+1. Clonar el repositorio y entrar al mismo mediante
+```
+git clone
+cd /Web-FrontEnd
+```
+
+2. Instalar BootStrap mediante el siguiente comando en la terminal de VisualStudio
+```
+npm install --save bootstrap
+```
+
+3. Instalar react-router-dom en la versión 5.2.0 para evitar problemas de incompatibilidad
+```
+npm install react-router-dom@5.2.0
+```
+
+4. Iniciar
+```
+npm start
+```
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

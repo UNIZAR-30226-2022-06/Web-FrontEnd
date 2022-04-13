@@ -28,7 +28,6 @@ export default class SignUp extends Component {
         this.setState({
             [name]: value
         });
-        console.log("Hasta aqui llego")
 
     }
 
@@ -56,19 +55,7 @@ export default class SignUp extends Component {
             return;
         }
 
-        const user = {
-            nombre: this.state.name, correo: this.state.email, nomUsuario: this.state.nickName, password: this.state.password
-        };
-
-        axios.post(baseUrl + "/createUsuario", { user })
-            .then( () => {
-                console.log("Exito en el registro");
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
-        /*this.registrarse().then( r =>{
+        this.registrarse().then( r =>{
             swal({
                 title: "You have successfully registed.",
                 text: "Log-in just now!",
@@ -87,9 +74,19 @@ export default class SignUp extends Component {
     }
 
     registrarse = async () => {
-
         
-*/
+        const user = {
+            nombre: this.state.name, correo: this.state.email, nomUsuario: this.state.nickName, password: this.state.password
+        };
+
+        axios.post(baseUrl + "/createUsuario/", { user })
+            .then( () => {
+                console.log("Exito en el registro");
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
     }
 
     //Check if password and confirm password are equal

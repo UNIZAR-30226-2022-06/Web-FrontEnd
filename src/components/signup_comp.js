@@ -79,7 +79,7 @@ export default class SignUp extends Component {
             nombre: this.state.name, correo: this.state.email, nomUsuario: this.state.nickName, password: this.state.password
         };
 
-        console.log('nombre: ', nombre, 'correo:', correo);
+        console.log(user);
 
         axios.post(baseUrl + "/createUsuario/", { user })
             .then( () => {

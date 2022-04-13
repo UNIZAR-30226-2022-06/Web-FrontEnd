@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 import Cookies from 'universal-cookie';
 import swal from 'sweetalert';
-import '../css/profile.css'
+import '../css/profile.css';
 import { BrowserRouter as Link } from "react-router-dom";
 
 import pencilIcon from '../icons8_pencil_drawing.ico';

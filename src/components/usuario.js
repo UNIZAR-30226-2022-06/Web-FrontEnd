@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const router = express.Router();
 
 //para cifrar las contraseñas
@@ -42,4 +42,4 @@ router.post('/registrarse', (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = router;*/

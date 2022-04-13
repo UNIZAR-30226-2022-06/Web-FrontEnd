@@ -79,7 +79,7 @@ export default class SignUp extends Component {
             nombre: this.state.name, correo: this.state.email, nomUsuario: this.state.nickName, password: this.state.password
         };
 
-        axios.post(baseUrl + "/createUsuario/", { user })
+        axios.post(baseUrl + "/createUsuario", { user })
             .then( () => {
                 console.log("Exito en el registro");
             })

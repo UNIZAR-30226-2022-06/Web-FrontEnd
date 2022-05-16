@@ -4,13 +4,10 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import swal from 'sweetalert';
 import '../css/profile.css';
-import { BrowserRouter as Link } from "react-router-dom";
 
 import pencilIcon from '../icons8_pencil_drawing.ico';
 
-
-const baseUrl = "https://precious2021.herokuapp.com";
-
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
 
 class FormHome extends React.Component {
 

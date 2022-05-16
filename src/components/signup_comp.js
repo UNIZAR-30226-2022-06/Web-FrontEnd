@@ -1,43 +1,37 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from 'axios'
 import swal from 'sweetalert';
+import { withRouter } from "react-router-dom";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 
-export default class SignUp extends Component {
+class SignUp extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            name: "",
+            nombre: "",
             email: "",
             password: "",
             cPassword: "", 
             nickName: "",
+            esAdmin: false
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
-     //This function handles the changes on any datafield
-     handleChange = (evento) => {
-        //Creamos un par con el nombre y el valor del target que este llamando a la funcion
-        const { name, value } = evento.target.value;
-        //Guardamos en el estado con el nombre correspondiente el valor correspondiente
-        this.setState({
-            [name]: value
-        });
-
-    }
-
     handleSubmit = (evento) => {
-        document.getElementById('mail').style.borderColor = '#f8f4e5'
-        document.getElementById('nickName').style.borderColor = '#f8f4e5'
-        document.getElementById('name').style.borderColor = '#f8f4e5'
-        document.getElementById('password').style.borderColor = '#f8f4e5'
-        evento.preventDefault();
         
+        console.log("He pulsado boton de registrar");
+        
+        document.getElementById('nombre').style.borderColor = '#f8f4e5'
+        document.getElementById('nickName').style.borderColor = '#f8f4e5'
+        document.getElementById('passwd').style.borderColor = '#f8f4e5'
+        document.getElementById('mail').style.borderColor = '#f8f4e5'
+        
+        evento.preventDefault();
         if (this.state.password !== this.state.cPassword) {
             alert("Passwords are not equal")
             return;
@@ -46,11 +40,12 @@ export default class SignUp extends Component {
             
             var valorMail = document.getElementById('mail').value;
             var valorNick = document.getElementById('nickName').value;
-            if(valorMail == ''){
+            if(valorMail === ''){
                 document.getElementById('mail').style.borderColor = 'red'
-            }else if(valorNick == ''){
-                document.getElementById('nickName').style.borderColor = 'red'
             }else{
+                if(valorNick === ''){
+                    document.getElementById('nickName').style.borderColor = 'red'
+                }
             }
             return;
         }
@@ -74,14 +69,11 @@ export default class SignUp extends Component {
     }
 
     registrarse = async () => {
-        
-        const user = {
-            nombre: this.state.name, correo: this.state.email, nomUsuario: this.state.nickName, password: this.state.password
-        };
+        /*const user = {
+            nombre: this.state.name, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin
+        };*/
 
-        console.log(user);
-
-        axios.post(baseUrl + "/createUsuario/", { user })
+        await axios.post(baseUrl + "/createUsuario/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin })
             .then( () => {
                 console.log("Exito en el registro");
             })
@@ -89,6 +81,16 @@ export default class SignUp extends Component {
                 console.log(error);
             })
 
+    }
+
+    //This function handles the changes on any datafield
+    handleChange = (evento) => {
+        //Creamos un par con el nombre y el valor del target que este llamando a la funcion
+        const { name, value } = evento.target;
+        //Guardamos en el estado con el nombre correspondiente el valor correspondiente
+        this.setState({
+            [name]: value
+        });
     }
 
     //Check if password and confirm password are equal
@@ -101,29 +103,7 @@ export default class SignUp extends Component {
             document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
         }
     }
-
-    /*componentDidMount() {
-        fetch('https://db-itreader-unizar.herokuapp.com/itreaderApp/createUsuario', {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "nombre": document.getElementById("name").value,
-                "nomUsuario": document.getElementById("nickname").value,
-                "password": document.getElementById("passwd").value,
-                "correo": document.getElementById("mail").value,
-                "esAdmin": false
-            })
-        })
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ usuarios: data })
-        })
-        .catch(console.log)
-      }
-    */
+   
     render() {
         return (
             <form onSubmit={this.handleSubmit} id="info">
@@ -131,33 +111,33 @@ export default class SignUp extends Component {
 
                 <div className="form-group">
                     <label>Nombre de usuario</label>
-                    <input type="text" className="form-control" id="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
+                    <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
                 </div>
                 <p></p>
                 <div className="form-group">
                     <label>Nombre</label>
-                    <input type="text" className="form-control" id="name" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
+                    <input type="text" className="form-control" id="nombre" name="nombre" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
                 </div>
                 <p></p>
                 <div className="form-group">
                     <label>Correo electrónico</label>
-                    <input type="email" className="form-control" id="mail" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                    <input type="email" className="form-control" id="mail" name="email" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
                 </div>
                 <p></p>
                 <div className="form-group">
                     <label>Contraseña</label>
-                    <input type="password" id="passwd" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                    <input type="password" id="passwd" name="password" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
                 </div>
                 <p></p>
                 <div>
                     <label>Confirmar contraseña</label>
-                    <input type="password" id="cpasswd" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                    <input type="password" id="cpasswd" name="cPassword" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
                     <span id='message' ></span>
                 </div>
                 <p></p>
                 <br></br>
                 <div class="d-grid gap-2">
-                    <button type="submit" className="btn btn-primary btn-block" align="center">Registrar</button>
+                    <input class="submit" type="submit" value="Registrar"></input>
                 </div>
                 <p className="forgot-password text-right">
                     ¿Ya te has registrado? <a href={"/sign-in"}>Inicia sesión</a>
@@ -167,7 +147,7 @@ export default class SignUp extends Component {
     }
 }
 
-class Register extends React.Component {
+class Register extends Component {
 
     render() {
         const history = this.props.history;
@@ -178,3 +158,5 @@ class Register extends React.Component {
         );
     }
 }
+
+export default withRouter(Register);

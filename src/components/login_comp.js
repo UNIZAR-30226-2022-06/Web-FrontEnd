@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import Usuario from "./usuario";
+import axios from 'axios'
+import swal from 'sweetalert';
+import { withRouter } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
-export default class Login extends Component {
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
+const cookies = new Cookies();
+
+class SignIn extends React.Component {
     constructor(props){
         super(props)
         
@@ -11,32 +17,52 @@ export default class Login extends Component {
         }
     }
 
-    state = {
-        usuario: ""
-      }
-
-    componentDidMount() {
-        fetch('https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios')
-        .then(res => res.json())
-        .then((data) => {
-          this.setState({ usuario: data })
+    handleChange = (name, value) => {
+        this.setState({
+            [name]: value
         })
-        .catch(console.log)
+    }
+
+    handleSubmit = (event) => {
+        //alert("Usuario: " + this.state.email + " passwrod: " + this.state.password)
+        this.login();
+        event.preventDefault(); 
+    }
+
+    login = async() => {
+        await axios.post(baseUrl + "/Usuarios/", {correo: this.state.email, password: this.state.password})
+        .then (response=>{
+                if(response.status === 200){
+                    cookies.set("correo",response.data.result.rows[0].correo, { path: '/' });
+                    cookies.set("nomUsuario",response.data.result.rows[0].nomUsuario, { path: '/' });
+                    //Llevamos al usuario a la página perfil
+                    window.location.href= 'profile/' + response.data.result.rows[0].correo;
+                }
+        }).catch(error => {
+            if (error.response.status === 400){
+                swal({
+                    title: "Bad login",
+                    text: "Username or password incorrect.",
+                    icon: "error"
+                })
+            }
+            
+        })
     }
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <h3>Inicia sesión con tu cuenta</h3>
 
                 <div className="form-group">
                     <label>Correo electrónico o cuenta</label>
-                    <input type="email" className="form-control" placeholder="Introduce tu correo electrónico o usuario" />
+                    <input type="email" className="form-control" id="email" name="email" placeholder="Introduce tu correo electrónico o usuario" onChange={this.handleChange}/>
                 </div>
                 <p></p>
                 <div className="form-group">
                     <label>Contraseña</label>
-                    <input type="password" className="form-control" placeholder="Introduce tu contraseña" />
+                    <input type="password" className="form-control" id="password" name="password" placeholder="Introduce tu contraseña" onChange={this.handleChange}/>
                 </div>
                 <p></p>
                 <div className="form-group">
@@ -56,3 +82,17 @@ export default class Login extends Component {
         );
     }
 }
+
+class Login extends React.Component{
+    
+    render(){
+        const history = this.props.history;
+        return(
+            <div className="Login">
+                <SignIn history={history} />
+            </div>
+        );
+    }
+}
+
+export default withRouter(Login);

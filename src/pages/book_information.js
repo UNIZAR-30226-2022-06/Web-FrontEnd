@@ -1,3 +1,9 @@
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+import swal from 'sweetalert';
+
 const baseUrl = "https://precious2021.herokuapp.com";
 
 
@@ -95,10 +101,10 @@ class BookInformation extends React.Component {
         return (
             <div classNameName="BookInformation">
 
-                <FormHome history={history}/>
+                <FormHBookInformation history={history}/>
             </div>
         )
     }
 }
 
-export default withRouter(home);
+export default withRouter(BookInformation);

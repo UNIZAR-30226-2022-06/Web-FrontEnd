@@ -4,13 +4,10 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import swal from 'sweetalert';
 import '../css/profile.css';
-import { BrowserRouter as Link } from "react-router-dom";
 
 import pencilIcon from '../icons8_pencil_drawing.ico';
 
-
-const baseUrl = "https://precious2021.herokuapp.com";
-
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
 
 class FormHome extends React.Component {
 
@@ -84,13 +81,13 @@ class FormHome extends React.Component {
         });
     }
 
-    checkPasswd() {
+    check() {
         if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
-            document.getElementById('message').style.color = '#04981C';
-            document.getElementById('message').innerHTML = 'Contraseña correcta';
+            document.getElementById('message').style.color = '#90ee90';
+            document.getElementById('message').innerHTML = ' Matching passwords';
         } else {
             document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
+            document.getElementById('message').innerHTML = ' Not matching passwords';
         }
     }
 
@@ -126,38 +123,37 @@ class FormHome extends React.Component {
                     </center>
                 </div>
                 <section>
+                    <nav className="Menu">
+                        <ul>
+                            <a className="nav-link" href={"/edit-profile"}><img src={pencilIcon} className="item-Menu" alt="pencilIcon" /></a>
+                        </ul>
+                    </nav>
                     <form onSubmit={this.handleSubmit} id="info">
-                        <h2>Editar perfil</h2>
+                        <h2>Perfil</h2>
 
                         <div className="form-group">
                             <label>Nombre de usuario</label>
-                            <input type="text" className="form-control" id="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
+                            <input disabled="true" type="text" className="form-control" id="nickName" placeholder={this.state.nickName} onChange={this.handleChange} />
                         </div>
                         <p></p>
                         <div className="form-group">
                             <label>Nombre</label>
-                            <input type="text" className="form-control" id="name" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
+                            <input disabled="true" type="text" className="form-control" id="name" placeholder={this.state.name} onChange={this.handleChange} />
                         </div>
                         <p></p>
                         <div className="form-group">
                             <label>Correo electrónico</label>
-                            <input type="email" className="form-control" id="mail" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                            <input disabled="true" type="email" className="form-control" id="mail" placeholder={this.state.email} onChange={this.handleChange} />
                         </div>
                         <p></p>
                         <div className="form-group">
                             <label>Contraseña</label>
-                            <input type="password" id="passwd" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                        </div>
-                        <p></p>
-                        <div>
-                            <label>Confirmar contraseña</label>
-                            <input type="password" id="cpasswd" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                            <span id='message' ></span>
+                            <input disabled="true" type="password" id="passwd" className="form-control" placeholder={this.state.password} onChange={this.handleChange} />
                         </div>
                         <p></p>
                         <br></br>
                         <div class="d-grid gap-2">
-                            <a type="submit" className="btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
+                            <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/catalogue"}>Volver</a>
                         </div>
                     </form>
                 </section>

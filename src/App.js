@@ -1,13 +1,8 @@
 import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faEdit, faPlay,faShare, faStop, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import '../src/css/style.css';
 import "./App.css";
-import { AuthProvider } from "./pages/auth";
-import Cookies from 'universal-cookie';
-import Header from "./containers/Header";
 
 import logoItReader from './itReader_logo_small.png';
 import Login from "./pages/login_comp";
@@ -20,11 +15,33 @@ import pdfReader from "./pages/pdfReader_comp";
 import bookUpload from "./pages/book_comp";
 import bookInfo from "./pages/book_information";
 import BookListing from "./containers/BookListing";
+import UserListing from "./containers/UserListing";
 import libEPUB from "./containers/library_epub";
 import libPDF from "./containers/library_pdf";
 
 
 function App() {
+
+  const handleProfile = () => {
+    if(localStorage.length == 0){
+      console.log(localStorage)
+      window.location.href = '/sign-in';
+    }
+    else{
+      console.log(localStorage)
+      window.location.href = '/profile';
+    }
+  }
+  
+  const handleLibrary = () => {
+    if(localStorage.length == 0){
+      window.location.href = '/sign-in';
+    }
+    else{
+      window.location.href = '/library-epub';
+    }
+  }
+
   return (<Router>
     <header className="header">
         <div className="header-1">
@@ -36,8 +53,8 @@ function App() {
           </form>
 
         <div class="icons">
-            <a href="/library-epub" class="fas fa-book"></a>
-            <a href="/sign-in" class="fas fa-user"></a>
+            <a onClick={handleLibrary} class="fas fa-book"></a>
+            <a onClick={handleProfile} class="fas fa-user"></a>
         </div>
       </div>
     </header>
@@ -48,10 +65,10 @@ function App() {
       <div className="App">      
         <div className="auth">
           <div className="auth">
-          <AuthProvider>
             <Switch>
               <Route exact path='/' component={BookListing} />
               <Route path="/catalogue" component={BookListing} />
+              <Route path="/users" component={UserListing} />
               <Route path="/sign-in" component={Login} />
               <Route path="/sign-up" component={SignUp} />
               <Route path="/reset" component={ResetPass} />
@@ -64,7 +81,6 @@ function App() {
               <Route path="/library-epub" component={libEPUB} />
               <Route path="/library-pdf" component={libPDF} />
             </Switch>
-          </AuthProvider>
           </div>
         </div>
       </div>

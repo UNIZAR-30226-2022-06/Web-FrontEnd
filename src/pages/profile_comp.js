@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
@@ -7,9 +7,7 @@ import '../css/profile.css';
 
 import pencilIcon from '../icons8_pencil_drawing.ico';
 
-const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
-
-class FormHome extends React.Component {
+class FormHome extends Component {
 
     cookie = new Cookies();
 
@@ -20,13 +18,11 @@ class FormHome extends React.Component {
             nickName: "",
             password: "",
             cpassword: "",
-            nomUsuario: "",
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
-
 
     handleSubmit = (evento) => {
         document.getElementById('mail').style.borderColor = '#f8f4e5'
@@ -49,28 +45,8 @@ class FormHome extends React.Component {
             }
             return;
         }
-
-        this.guardarCambios().then( r =>{
-            swal({
-                title: "You have successfully change your data.",
-                text: "Now read a book!",
-                icon: "success",
-                button: "Go to Menu",
-            }).then( resp => {
-                window.location.href = 'Login';
-            })
-            }).catch( err =>{
-            swal({
-                title: "Something went wrong",
-                text: "Try to register again in a few minutes",
-                icon: "error"
-                })
-            });
-
-        //Reiniciamos el campo de los formularios
-        //document.getElementById("info").reset()
     }
-
+    
     //This function handles the changes on any datafield
     handleChange = (evento) => {
         //Creamos un par con el nombre y el valor del target que este llamando a la funcion
@@ -81,38 +57,8 @@ class FormHome extends React.Component {
         });
     }
 
-    check() {
-        if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
-            document.getElementById('message').style.color = '#90ee90';
-            document.getElementById('message').innerHTML = ' Matching passwords';
-        } else {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = ' Not matching passwords';
-        }
-    }
-
-    guardarCambios = async () => {
-
-        await axios.post(baseUrl + "/home", { correo: this.state.email, nomUsuario: this.state.nickname, password: this.state.password })
-            .then( () => {
-                console.log("Exito en el registro");
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
-    }
-
-    deleteAcount = async () => {
-
-        await axios.post(baseUrl + "/home", {  })
-            .then( () => {
-                console.log("Exito al borrar");
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
+    handleLogout = (evento) => {
+        localStorage.clear();
     }
 
     render() {
@@ -154,7 +100,10 @@ class FormHome extends React.Component {
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">
-                                <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/catalogue"}>Volver</a>
+                                <button type="submit" className="btn btn-primary btn-lock btn-lg">Volver</button>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a onClick={this.handleLogout} type="submit" className="danger-btn btn-warning btn-lock btn-lg" href={"/sign-in"}>Cerrar sesión</a>
                             </div>
                         </form>
                     </section>
@@ -163,10 +112,9 @@ class FormHome extends React.Component {
         )
     }
 }
+ 
 
-  
-
-class home extends React.Component {
+class home extends Component {
     render() {
         
         const history = this.props.history;

@@ -6,7 +6,8 @@ import swal from 'sweetalert';
 import '../css/profile.css';
 import { BrowserRouter as Link } from "react-router-dom";
 
-const baseUrl = "https://precious2021.herokuapp.com";
+const baseUrlDEL = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteUsuario/";
+const baseUrlUPD = "https://db-itreader-unizar.herokuapp.com/itreaderApp/updateUsuario/";
 
 
 class FormHome extends React.Component {
@@ -20,7 +21,6 @@ class FormHome extends React.Component {
             nickName: "",
             password: "",
             cpassword: "",
-            nomUsuario: "",
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -57,7 +57,7 @@ class FormHome extends React.Component {
                 icon: "success",
                 button: "Go to Menu",
             }).then( resp => {
-                window.location.href = 'Login';
+                window.location.href = '/profile';
             })
             }).catch( err =>{
             swal({
@@ -91,7 +91,7 @@ class FormHome extends React.Component {
         }
     }
 
-    guardarCambios = async () => {
+    /*guardarCambios = async () => {
 
         await axios.post(baseUrl + "/home", { correo: this.state.email, nomUsuario: this.state.nickname, password: this.state.password })
             .then( () => {
@@ -101,18 +101,20 @@ class FormHome extends React.Component {
                 console.log(error);
             })
 
+    }*/
+
+    handleDelete = (evento) => {
+        localStorage.clear();
     }
 
-    deleteAcount = async () => {
-
-        await axios.post(baseUrl + "/home", {  })
-            .then( () => {
-                console.log("Exito al borrar");
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
+    checkPasswd() {
+        if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
+            document.getElementById('message').style.color = '#04981C';
+            document.getElementById('message').innerHTML = 'Contraseña correcta';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
+        }
     }
 
     render() {
@@ -124,7 +126,7 @@ class FormHome extends React.Component {
                         </center>
                     </div>
                     <section>
-                        <form onSubmit={this.handleSubmit} id="info">
+                        <form>
                             <h2>Editar perfil</h2>
 
                             <div className="form-group">
@@ -155,11 +157,11 @@ class FormHome extends React.Component {
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">
-                                <a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
+                                <a onClick={this.guardarCambios} className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
                             </div>
                             <h2></h2>
                             <div class="d-grid gap-2">
-                                <a type="submit" className="danger-btn btn-danger btn-lock btn-lg" href={"/sign-up"}>Borrar cuenta</a>
+                                <a onClick={this.handleDelete} className="danger-btn btn-danger btn-lock btn-lg" href={"/sign-up"}>Borrar cuenta</a>
                             </div>
                         </form>
                     </section>

@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie';
 import "../css/profile.css";
 import "../App.css";
 
-const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Login/";
 const cookies = new Cookies();
 
 class SignIn extends React.Component {
@@ -18,7 +18,8 @@ class SignIn extends React.Component {
             password: ""
         }
     }
-
+    
+    
     //This function handles the changes on any datafield
     handleChange = (evento) => {
         //Creamos un par con el nombre y el valor del target que este llamando a la funcion
@@ -28,33 +29,29 @@ class SignIn extends React.Component {
             [name]: value
         });
     }
-
+    
     handleSubmit = (event) => {
         //alert("Usuario: " + this.state.email + " passwrod: " + this.state.password)
         this.login();
         event.preventDefault(); 
     }
-
+    
     login = async() => {
-        await axios.get(baseUrl + "/Login/" + this.state.username, {params: {
-                password: this.state.password,
-            } 
-        })
+        await axios.get(baseUrl + this.state.username)
         .then (response=>{
-            console.log(response.data);
-                if(response.status === 200){
-                    //cookies.set("nomUsuario", response.data.result.rows[0].nomUsuario, { path: '/' });
-                    window.location.href = '/profile/';
-                }
-        }).catch(error => {
-            if (error.response.status === 400){
-                swal({
-                    title: "Bad login",
-                    text: "Username or password incorrect.",
-                    icon: "error"
-                })
+            console.log(response.data.nomUsuario);
+            console.log(response.data.password);
+            if(response.data.nomUsuario == this.state.username && response.data.password == this.state.password){
+                alert("Inicio de sesión con éxito!")
+                localStorage.setItem('nomUsuario',this.state.username)
+                localStorage.setItem('password',this.state.password)
+                window.location.href= '/catalogue';
             }
-            
+            else{
+                alert("Contraseña incorrecta!")
+            }
+        }).catch(error => {
+            alert("El usuario no ha podido ser logueado")
         })
     }
 
@@ -72,7 +69,7 @@ class SignIn extends React.Component {
 
                             <div className="form-group">
                                 <label>Nombre de usuario</label>
-                                <input type="username" className="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange}/>
+                                <input type="text" className="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange}/>
                             </div>
                             <p></p>
                             <div className="form-group">

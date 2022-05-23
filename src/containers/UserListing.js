@@ -4,64 +4,59 @@ import { Link } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import "../App.css"
 
-const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios/";
 
 function HomeScreen (props) {
 
-  const [book, setBook] = useState([]);
+  const [user, setUser] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
 
-  const booksPerPage = 12;
-  const pagesVisited = pageNumber * booksPerPage;
+  const usersPerPage = 12;
+  const pagesVisited = pageNumber * usersPerPage;
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const fetchUsers = async () => {
         const { data } = await axios.get(baseUrl)
-        setBook(data);
+        setUser(data);
       }; 
-      fetchBooks();
+      fetchUsers();
       return () => {
         //
       };
     }, []);
     
-    const displayBooks = book
-          .slice(pagesVisited, pagesVisited + booksPerPage)
-          .map((book) => {
+    const nombreusuario = localStorage.getItem('nomUsuario')
+    console.log(nombreusuario)
+    const displayUsers = user
+          .slice(pagesVisited, pagesVisited + usersPerPage)
+          .map((user) => {
+            if(user.nomUsuario == nombreusuario){
             return (
               <div className="contenido">
-                <div className="ui grid container" key={book.id}>
-                  <Link to={'/book/' + book.id}>
+                <div className="ui grid container" key={user.id}>
+                  <Link to={'/user/' + user.id}>
                     <div className="ui link cards">
                       <div className="card">
                         <div className="image">
-                          <img
-                            width="20" 
-                            height="20"
-                            className="book-image"
-                            src={book.linkPortada}
-                            alt="book"
-                          />
                         </div>
                         <div className="content">
                           <div className="header">
-                            <Link to={'/product/' + book.id}></Link>
+                            <Link to={'/product/' + user.id}></Link>
                           </div>
-                          <div className="meta price">{book.nombre}</div>
-                          <div className="meta autor">{book.autor}</div>
-                          <div className="meta edit">{book.editorial}</div>
+                          <div className="meta price">{user.nombre}</div>
+                          <div className="meta autor">{user.nomUsuario}</div>
+                          <div className="meta edit">{user.correo}</div>
+                          <div className="meta edit">{user.password}</div>
                         </div>
                       </div>
                     </div>
                   </Link>
-                  <div class="d-grid gap-2">
-                    <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/library-epub"}>Añadir a la librería</a>
-                  </div>
                 </div>
               </div>
             );
-            });
-    const pageCount = Math.ceil(book.length / booksPerPage);
+            }
+        });
+    const pageCount = Math.ceil(user.length / usersPerPage);
 
     const changePage = ({ selected }) => {
       setPageNumber(selected);
@@ -71,7 +66,7 @@ function HomeScreen (props) {
       <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
       <grid-section>
-        {displayBooks}
+        {displayUsers}
       </grid-section>
       <br></br>
       <br></br>

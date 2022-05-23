@@ -9,7 +9,7 @@ function HomeScreen (props) {
   const [book, setBook] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
 
-  const booksPerPage = 10;
+  const booksPerPage = 12;
   const pagesVisited = pageNumber * booksPerPage;
 
   useEffect(() => {
@@ -45,15 +45,15 @@ function HomeScreen (props) {
                           <div className="header">
                             <Link to={'/product/' + book.id}></Link>
                           </div>
-                          <div className="meta price">{book.autor}</div>
-                          <div className="meta">{book.editorial}</div>
-                          <div className="meta">{book.valoracion}</div>
+                          <div className="meta price">{book.nombre}</div>
+                          <div className="meta autor">{book.autor}</div>
+                          <div className="meta edit">{book.editorial}</div>
                         </div>
                       </div>
                     </div>
                   </Link>
                   <div class="d-grid gap-2">
-                    <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/library"}>Añadir a la librería</a>
+                    <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/library-epub"}>Añadir a la librería</a>
                   </div>
                 </div>
               </div>
@@ -68,7 +68,9 @@ function HomeScreen (props) {
     return (
       <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
-      {displayBooks}
+      <grid-section>
+        {displayBooks}
+      </grid-section>
       <br></br>
       <br></br>
         <ReactPaginate

@@ -36,7 +36,7 @@ class Book extends Component {
 	
 	// Request made to the backend api
 	// Send formData object
-	axios.post("api/uploadfile", formData);
+	axios.post("https://db-itreader-unizar.herokuapp.com/itreaderApp/subirLibro/", formData);
 	};
 	
 	// File content to be displayed after

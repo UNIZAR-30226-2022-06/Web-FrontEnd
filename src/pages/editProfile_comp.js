@@ -117,56 +117,57 @@ class FormHome extends React.Component {
 
     render() {
         return (
-            <div> 
-                <div>
-                    <center>
-                    </center>
-                </div>
-                <section>
-                    <form onSubmit={this.handleSubmit} id="info">
-                        <h2>Editar perfil</h2>
+            <div className="auth-wrapper">
+                <div className="auth-inner"> 
+                    <div>
+                        <center>
+                        </center>
+                    </div>
+                    <section>
+                        <form onSubmit={this.handleSubmit} id="info">
+                            <h2>Editar perfil</h2>
 
-                        <div className="form-group">
-                            <label>Nombre de usuario</label>
-                            <input type="text" className="form-control" id="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Nombre</label>
-                            <input type="text" className="form-control" id="name" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Correo electrónico</label>
-                            <input type="email" className="form-control" id="mail" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" id="passwd" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                        </div>
-                        <p></p>
-                        <div>
-                            <label>Confirmar contraseña</label>
-                            <input type="password" id="cpasswd" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                            <span id='message' ></span>
-                        </div>
-                        <p></p>
-                        <br></br>
-                        <div class="d-grid gap-2">
-                            <a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
-                        </div>
-                        <h2></h2>
-                        <div class="d-grid gap-2">
-                            <a type="submit" className="danger-btn btn-danger btn-lock btn-lg" href={"/sign-up"}>Borrar cuenta</a>
-                        </div>
-                    </form>
-                </section>
+                            <div className="form-group">
+                                <label>Nombre de usuario</label>
+                                <input type="text" className="form-control" id="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Nombre</label>
+                                <input type="text" className="form-control" id="name" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Correo electrónico</label>
+                                <input type="email" className="form-control" id="mail" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Contraseña</label>
+                                <input type="password" id="passwd" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                            </div>
+                            <p></p>
+                            <div>
+                                <label>Confirmar contraseña</label>
+                                <input type="password" id="cpasswd" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <span id='message' ></span>
+                            </div>
+                            <p></p>
+                            <br></br>
+                            <div class="d-grid gap-2">
+                                <a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
+                            </div>
+                            <h2></h2>
+                            <div class="d-grid gap-2">
+                                <a type="submit" className="danger-btn btn-danger btn-lock btn-lg" href={"/sign-up"}>Borrar cuenta</a>
+                            </div>
+                        </form>
+                    </section>
+                </div>
             </div>
         )
     }
 }
-
   
 
 class home extends React.Component {

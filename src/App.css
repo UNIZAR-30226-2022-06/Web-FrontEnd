@@ -32,67 +32,70 @@
 }
 
 .ui.cards > .card > .image {
-  justify-content: center;
   height: 250px;
   padding: 20px;
   background: #fff;
   margin: auto;
 }
 .ui.cards > .card > .image > img {
-  justify-content: center;
   height: 100%;
   max-width: 100%;
   width: auto;
 }
 .ui.cards > .card > .content > .header {
-  justify-content: center;
   height: 48px;
   overflow: hidden;
   margin-bottom: 5px;
 }
 .ui.cards > .card > .content > .description {
-  justify-content: center;
   height: 36px;
   margin-bottom: 0px;
   overflow: hidden;
 }
 .ui.cards > .card .meta.price {
-  justify-content: center;
   margin-bottom: 5px;
   font-size: 18px;
   color: #333;
   font-weight: 600;
 }
 
+.ui.cards > .card .meta.autor {
+  margin-bottom: 5px;
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+.ui.cards > .card .meta.edit {
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: #333;
+  font-weight: 600;
+}
+
 .ui.cards > .card .meta.price > a {
-  justify-content: center;
   font-size: 1.3rem;
   color: #222;
 }
 
 .ui.menu.fixed {
-  justify-content: center;
   height: 60px;
   padding-top: 15px;
 }
 
 .ui.grid.container {
-  justify-content: center;
   margin-top: 45px;
   width: 30rem;
 }
 
 .ui.grid > .row {
-  justify-content: center;
   background: #fff;
 }
 .ui.grid > .row > .column.lp {
-  justify-content: center;
   padding: 20px 40px 20px 20px;
   align-self: flex-start !important;
 }
 .ui.grid > .row > .column.rp {
-  justify-content: center;
   padding: 20px 20px 20px 40px;
   text-align: left;
   align-self: flex-start !important;
@@ -100,28 +103,23 @@
 
 .ui.grid > .row > .column > img,
 .ui.grid > .row > img {
-  justify-content: center;
   height: 100%;
 }
 .ui.placeholder .header:not(:first-child):before,
 .ui.placeholder .image:not(:first-child):before,
 .ui.placeholder .paragraph:not(:first-child):before {
-  justify-content: center;
   display: none;
 }
 
 .ui.label,
 .ui.labels .label {
-  justify-content: center;
   font-size: 22px;
 }
 
 .column.rp h1 {
-  justify-content: center;
   color: #333;
 }
 .column.rp p {
-  justify-content: center;
   font-size: 18px;
   color: #777;
 }
@@ -184,4 +182,27 @@
   text-decoration: none;
   color: black;
   background-color: grey;
+}
+
+grid-section {
+  width: 80%;
+  margin: auto;
+  margin-top: 5%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  justify-content: center;
+}
+
+.pdf-btn {
+  width: 150px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 20px rgba(34, 35, 58, 0.2);
+  padding: 10px 15px 10px 15px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: right;
 }

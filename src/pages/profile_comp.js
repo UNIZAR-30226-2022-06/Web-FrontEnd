@@ -117,46 +117,48 @@ class FormHome extends React.Component {
 
     render() {
         return (
-            <div> 
-                <div>
-                    <center>
-                    </center>
-                </div>
-                <section>
-                    <nav className="Menu">
-                        <ul>
-                            <a className="nav-link" href={"/edit-profile"}><img src={pencilIcon} className="item-Menu" alt="pencilIcon" /></a>
-                        </ul>
-                    </nav>
-                    <form onSubmit={this.handleSubmit} id="info">
-                        <h2>Perfil</h2>
+            <div className="auth-wrapper">
+                <div className="auth-inner"> 
+                    <div>
+                        <center>
+                        </center>
+                    </div>
+                    <section>
+                        <nav className="Menu">
+                            <ul>
+                                <a className="nav-link" href={"/edit-profile"}><img src={pencilIcon} className="item-Menu" alt="pencilIcon" /></a>
+                            </ul>
+                        </nav>
+                        <form onSubmit={this.handleSubmit} id="info">
+                            <h2>Perfil</h2>
 
-                        <div className="form-group">
-                            <label>Nombre de usuario</label>
-                            <input disabled="true" type="text" className="form-control" id="nickName" placeholder={this.state.nickName} onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Nombre</label>
-                            <input disabled="true" type="text" className="form-control" id="name" placeholder={this.state.name} onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Correo electrónico</label>
-                            <input disabled="true" type="email" className="form-control" id="mail" placeholder={this.state.email} onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input disabled="true" type="password" id="passwd" className="form-control" placeholder={this.state.password} onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <br></br>
-                        <div class="d-grid gap-2">
-                            <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/catalogue"}>Volver</a>
-                        </div>
-                    </form>
-                </section>
+                            <div className="form-group">
+                                <label>Nombre de usuario</label>
+                                <input disabled="true" type="text" className="form-control" id="nickName" placeholder={this.state.nickName} onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Nombre</label>
+                                <input disabled="true" type="text" className="form-control" id="name" placeholder={this.state.name} onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Correo electrónico</label>
+                                <input disabled="true" type="email" className="form-control" id="mail" placeholder={this.state.email} onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Contraseña</label>
+                                <input disabled="true" type="password" id="passwd" className="form-control" placeholder={this.state.password} onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <br></br>
+                            <div class="d-grid gap-2">
+                                <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/catalogue"}>Volver</a>
+                            </div>
+                        </form>
+                    </section>
+                </div>
             </div>
         )
     }

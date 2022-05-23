@@ -49,10 +49,6 @@ html::-webkit-scrollbar-thumb{
     background:var(--black);
 }
 
-section{
-    padding:5rem 9%;
-}
-
 .heading{
     text-align: center;
     margin-bottom: 2rem;

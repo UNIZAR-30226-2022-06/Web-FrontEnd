@@ -4,6 +4,7 @@ import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import "../css/profile.css";
+import "../App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp";
 const cookies = new Cookies();
@@ -13,15 +14,19 @@ class SignIn extends React.Component {
         super(props)
         
         this.state = {
-            email: "",
+            username: "",
             password: ""
         }
     }
 
-    handleChange = (name, value) => {
+    //This function handles the changes on any datafield
+    handleChange = (evento) => {
+        //Creamos un par con el nombre y el valor del target que este llamando a la funcion
+        const { name, value } = evento.target;
+        //Guardamos en el estado con el nombre correspondiente el valor correspondiente
         this.setState({
             [name]: value
-        })
+        });
     }
 
     handleSubmit = (event) => {
@@ -31,13 +36,15 @@ class SignIn extends React.Component {
     }
 
     login = async() => {
-        await axios.post(baseUrl + "/Usuarios/", {correo: this.state.email, password: this.state.password})
+        await axios.get(baseUrl + "/Login/" + this.state.username, {params: {
+                password: this.state.password,
+            } 
+        })
         .then (response=>{
+            console.log(response.data);
                 if(response.status === 200){
-                    cookies.set("correo",response.data.result.rows[0].correo, { path: '/' });
-                    cookies.set("nomUsuario",response.data.result.rows[0].nomUsuario, { path: '/' });
-                    //Llevamos al usuario a la página perfil
-                    window.location.href= 'profile/' + response.data.result.rows[0].correo;
+                    //cookies.set("nomUsuario", response.data.result.rows[0].nomUsuario, { path: '/' });
+                    window.location.href = '/profile/';
                 }
         }).catch(error => {
             if (error.response.status === 400){
@@ -53,39 +60,41 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    <center>
-                    </center>
-                </div>
-                <section>
-                    <form onSubmit={this.handleSubmit}>
-                        <h3>Inicia sesión con tu cuenta</h3>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <div>
+                        <center>
+                        </center>
+                    </div>
+                    <section>
+                        <form onSubmit={this.handleSubmit}>
+                            <h3>Inicia sesión con tu cuenta</h3>
 
-                        <div className="form-group">
-                            <label>Correo electrónico o cuenta</label>
-                            <input type="email" className="form-control" id="email" name="email" placeholder="Introduce tu correo electrónico o usuario" onChange={this.handleChange}/>
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" className="form-control" id="password" name="password" placeholder="Introduce tu contraseña" onChange={this.handleChange}/>
-                        </div>
-                        <p></p>
-                        <br></br>
-                        <div class="d-grid gap-2"> 
-                            <a type="submit" className="btn btn-primary btn-block btn-lg" href={"/profile"}>Iniciar sesión</a>
-                        </div>
-                        <br></br>
-                        <p className="forgot-password" type="button">
-                            ¿Has olvidado tu contraseña? <a href={"/reset"}>Recuperar</a>
-                        </p>
-                        <p className="forgot-password" type="button">
-                            ¿Todavía no tienes cuenta? <a href={"/sign-up"}>Registrar</a>
-                        </p>
-                    </form>
-                </section>
-            </div>    
+                            <div className="form-group">
+                                <label>Nombre de usuario</label>
+                                <input type="username" className="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange}/>
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Contraseña</label>
+                                <input type="password" className="form-control" id="password" name="password" placeholder="Introduce tu contraseña" onChange={this.handleChange}/>
+                            </div>
+                            <p></p>
+                            <br></br>
+                            <div class="d-grid gap-2"> 
+                                <button type="submit" className="btn btn-primary btn-block btn-lg">Iniciar sesión</button>
+                            </div>
+                            <br></br>
+                            <p className="forgot-password" type="button">
+                                ¿Has olvidado tu contraseña? <a href={"/reset"}>Recuperar</a>
+                            </p>
+                            <p className="forgot-password" type="button">
+                                ¿Todavía no tienes cuenta? <a href={"/sign-up"}>Registrar</a>
+                            </p>
+                        </form>
+                    </section>
+                </div> 
+            </div>   
         );
     }
 }

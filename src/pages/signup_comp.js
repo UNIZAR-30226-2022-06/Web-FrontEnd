@@ -3,10 +3,12 @@ import axios from 'axios'
 import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
 import "../css/profile.css";
+import "../App.css";
+
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 
-class SignUp extends React.Component {
+class SignUp extends Component {
     constructor(props) {
         super(props)
 
@@ -107,51 +109,53 @@ class SignUp extends React.Component {
    
     render() {
         return (
-            <div>
-                <div>
-                    <center>
-                    </center>
-                </div>
-                <section>    
-                    <form onSubmit={this.handleSubmit} id="info">
-                        <h3>Registra tu cuenta</h3>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <div>
+                        <center>
+                        </center>
+                    </div>
+                    <section>    
+                        <form onSubmit={this.handleSubmit} id="info">
+                            <h3>Registra tu cuenta</h3>
 
-                        <div className="form-group">
-                            <label>Nombre de usuario</label>
-                            <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Nombre</label>
-                            <input type="text" className="form-control" id="nombre" name="nombre" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Correo electrónico</label>
-                            <input type="email" className="form-control" id="mail" name="email" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
-                        </div>
-                        <p></p>
-                        <div className="form-group">
-                            <label>Contraseña</label>
-                            <input type="password" id="passwd" name="password" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                        </div>
-                        <p></p>
-                        <div>
-                            <label>Confirmar contraseña</label>
-                            <input type="password" id="cpasswd" name="cPassword" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
-                            <span id='message' ></span>
-                        </div>
-                        <p></p>
-                        <br></br>
-                        <div class="d-grid gap-2"> 
-                            <a type="submit" className="btn btn-primary btn-block btn-lg" href={"/sign-in"}>Registrar</a>
-                        </div>
-                        <br></br>
-                        <p className="forgot-password" type="button">
-                            ¿Ya te has registrado? <a href={"/sign-in"}>Inicia sesión</a>
-                        </p>
-                    </form>
-                </section>
+                            <div className="form-group">
+                                <label>Nombre de usuario</label>
+                                <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Nombre</label>
+                                <input type="text" className="form-control" id="nombre" name="nombre" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Correo electrónico</label>
+                                <input type="email" className="form-control" id="mail" name="email" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Contraseña</label>
+                                <input type="password" id="passwd" name="password" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                            </div>
+                            <p></p>
+                            <div>
+                                <label>Confirmar contraseña</label>
+                                <input type="password" id="cpasswd" name="cPassword" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <span id='message' ></span>
+                            </div>
+                            <p></p>
+                            <br></br>
+                            <div class="d-grid gap-2"> 
+                                <button type="submit" className="btn btn-primary btn-block btn-lg">Registrar</button>
+                            </div>
+                            <br></br>
+                            <p className="forgot-password" type="button">
+                                ¿Ya te has registrado? <a href={"/sign-in"}>Inicia sesión</a>
+                            </p>
+                        </form>
+                    </section>
+                </div>
             </div>
         );
     }

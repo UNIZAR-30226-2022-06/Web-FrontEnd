@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faEdit, faPlay,faShare, faStop, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import '../src/css/style.css';
-//import "./App.css";
+import "./App.css";
+import { AuthProvider } from "./pages/auth";
 import Cookies from 'universal-cookie';
 import Header from "./containers/Header";
 
@@ -19,6 +20,8 @@ import pdfReader from "./pages/pdfReader_comp";
 import bookUpload from "./pages/book_comp";
 import bookInfo from "./pages/book_information";
 import BookListing from "./containers/BookListing";
+import libEPUB from "./containers/library_epub";
+import libPDF from "./containers/library_pdf";
 
 
 function App() {
@@ -33,21 +36,22 @@ function App() {
           </form>
 
         <div class="icons">
-            <a href="/library" class="fas fa-book"></a>
+            <a href="/library-epub" class="fas fa-book"></a>
             <a href="/sign-in" class="fas fa-user"></a>
         </div>
       </div>
     </header>
       
       <div className='ui grid container'>
-          <Route exact path='/' component={BookListing} />
-          <Route path="/catalogue" component={BookListing} />
       </div>
+
       <div className="App">      
-        <div className="auth-wrapper">
-          <Route path="/pdf-reader" component={pdfReader} />
-          <div className="auth-inner">
+        <div className="auth">
+          <div className="auth">
+          <AuthProvider>
             <Switch>
+              <Route exact path='/' component={BookListing} />
+              <Route path="/catalogue" component={BookListing} />
               <Route path="/sign-in" component={Login} />
               <Route path="/sign-up" component={SignUp} />
               <Route path="/reset" component={ResetPass} />
@@ -56,7 +60,11 @@ function App() {
               <Route path="/edit-profile" component={editProfile} />
               <Route path="/book-upload" component={bookUpload} />
               <Route path="/book-info" component={bookInfo} />
+              <Route path="/pdf-reader" component={pdfReader} />
+              <Route path="/library-epub" component={libEPUB} />
+              <Route path="/library-pdf" component={libPDF} />
             </Switch>
+          </AuthProvider>
           </div>
         </div>
       </div>

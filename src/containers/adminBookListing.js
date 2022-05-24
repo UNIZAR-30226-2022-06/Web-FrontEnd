@@ -4,8 +4,10 @@ import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 import "../css/App.css";
 
+import bookAdd from "../bootstrap-icons/plus-circle.svg"
+
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
-const urlAddBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/addDocsUsuario/";
+const urlAddBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibro/";
 
 function HomeScreen (props) {
 
@@ -26,7 +28,7 @@ function HomeScreen (props) {
       };
   }, []);
 
-    const handleAdd2Lib = (book) => {
+    const handleDelBook = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
       console.log(nombreUser)
       if(localStorage.length == 0){
@@ -35,8 +37,8 @@ function HomeScreen (props) {
       else{
         console.log(book.nombre)
         console.log(nombreUser)
-        axios.put(urlAddBook + nombreUser + "/", {nomLibro: book.nombre}) 
-        window.location.href = '/library-epub';
+        axios.delete(urlAddBook + book.nombre + "/") 
+        window.location.href = '/admin-catalogue';
       }
     }
 
@@ -67,7 +69,7 @@ function HomeScreen (props) {
                       </div>
                     </div>
                   <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleAdd2Lib(book)} className="btn btn-primary btn-lock btn-lg">Añadir a la librería</button>
+                    <button type="submit" onClick={() => handleDelBook(book)} className="btn btn-danger btn-lock btn-lg">Eliminar del catálogo</button>
                   </div>
                 </div>
               </div>
@@ -82,6 +84,7 @@ function HomeScreen (props) {
     return (
       <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
+      <h5><Link className="pdf-btn" to={"/book-add"}><img src={bookAdd} width="30" height="30"></img>Añadir libro al catálogo</Link></h5>
       <grid-section>
         {displayBooks}
       </grid-section>

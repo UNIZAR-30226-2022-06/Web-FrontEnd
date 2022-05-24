@@ -37,7 +37,7 @@ function App() {
 	return (
 	  <div className="auth-wrapper">
 		<div className="auth-inner">
-			<h1>Subir un documento PDF</h1>
+			<h1>Subir un documento EPUB</h1>
 			<br/>
 			<label>
 				<h2>Archivo: </h2>
@@ -48,7 +48,7 @@ function App() {
 				<button className="btn btn-success btn-lock btn-lg" onClick={() => newBook()}>Importar</button>
 			</div>
 			<div class="d-grid gap-2">
-				<a type="submit" href="/library-pdf" className="btn btn-danger btn-lock btn-lg">Volver</a>
+				<a type="submit" href="/admin-catalogue" className="btn btn-danger btn-lock btn-lg">Volver</a>
 			</div>
 		</div>
 	  </div>

@@ -8,6 +8,8 @@ const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 const baseUrlUPT = "https://db-itreader-unizar.herokuapp.com/itreaderApp/updateUsuario/"
 const baseUrlDEL = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteUsuario/"
 
+const userName = localStorage.getItem('nomUsuario')
+
 class EditProfile extends Component {
 
     constructor(props) {
@@ -55,25 +57,25 @@ class EditProfile extends Component {
             return;
         }
 
-        this.actualizarUser().then( r =>{
+        this.updateUser().then( r =>{
             swal({
-                title: "You have successfully updated your profile.",
-                text: "Log-in just now!",
+                title: "Datos cambiados con éxito",
+                text: "Vuelve a tu perfil",
                 icon: "success",
             }).then( resp => {
-                window.location.href = 'sign-in';
+                window.location.href = '/profile';
             })
         }).catch( err =>{
             swal({
-                title: "Something went wrong",
-                text: "Try to register again in a few minutes",
+                title: "Algo ha ido mal...",
+                text: "Inténtalo de nuevo más tarde",
                 icon: "error"
             })
         });
     }
 
-    actualizarUser = async () => {
-        await axios.put(baseUrlUPT + this.state.nickName + "/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin })
+    updateUser = async () => {
+        await axios.put(baseUrlUPT + userName + "/", { nombre: this.state.nombre, nomUsuario: userName, password: this.state.password, correo: this.state.email })
             .then( () => {
                 console.log("Exito al actualizar los datos");
             })
@@ -93,10 +95,10 @@ class EditProfile extends Component {
     }
 
     handleDelete = (evento) => {
-        this.state.nickName = localStorage.getItem('nomUsuario')
-        console.log(this.state.nickName)
-        axios.put(baseUrlUPT + this.state.nickName + "/") 
+        evento.preventDefault();
+        axios.put(baseUrlUPT + userName + "/") 
         localStorage.clear();
+        window.location.href = '/sign-in';
     }
 
     checkPasswd() {
@@ -120,11 +122,6 @@ class EditProfile extends Component {
                     <section>
                         <form onSubmit={this.handleSubmit} id="info">
                             <h2>Editar perfil</h2>
-
-                            <div className="form-group">
-                                <label>Nombre de usuario</label>
-                                <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
-                            </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Nombre</label>

@@ -2,20 +2,18 @@ import React, { Component } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
-import Cookies from 'universal-cookie';
 import "../css/profile.css";
 import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Login/";
-const cookies = new Cookies();
 
-class SignIn extends React.Component {
+class SignIn extends Component {
     constructor(props){
         super(props)
         
         this.state = {
             username: "",
-            password: ""
+            password: "",
         }
     }
     
@@ -41,6 +39,7 @@ class SignIn extends React.Component {
         .then (response=>{
             console.log(response.data.nomUsuario);
             console.log(response.data.password);
+            console.log(response.data.esAdmin);
             if(response.data.nomUsuario == this.state.username && response.data.password == this.state.password){
                 swal({
                     title: "Inicio de sesión correcto",
@@ -49,7 +48,13 @@ class SignIn extends React.Component {
                 })
                 localStorage.setItem('nomUsuario',this.state.username)
                 localStorage.setItem('password',this.state.password)
-                window.location.href= '/catalogue';
+                localStorage.setItem('esAdmin',response.data.esAdmin)
+                if(response.data.esAdmin == false){
+                    window.location.href= '/catalogue';
+                }
+                else{
+                    window.location.href= '/admin-catalogue';
+                }
             }
             else{
                 swal({
@@ -104,7 +109,7 @@ class SignIn extends React.Component {
     }
 }
 
-class Login extends React.Component{
+class Login extends Component{
     
     render(){
         const history = this.props.history;

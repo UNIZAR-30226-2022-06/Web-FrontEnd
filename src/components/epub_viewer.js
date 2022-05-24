@@ -35,39 +35,66 @@ class Epub extends Component {
         var marcpag
         axios.get(baseUrl + '/MarcasUsuario/' + userName + '/')                //storage usuario
         .then(res =>{
-            for(var i = 0; i < res.data.length; i++){
-                if(res.data[i].esUltimaLeida === true){
-                    marcpag = res.data[i];
+            var marcas = res.data;
+
+            axios.get(baseUrl + '/Libros/').then(res =>{
+                var libro;
+                for(var i = 0; i < res.data.length; i++){
+                    if(libroName == res.data[i].nombre){        //storage libro
+                        libro = res.data[i];
+                        //console.log(libro);
+                    }                                                
                 }
-            }
+                
+                axios.get(baseUrl + '/Usuarios/').then(res =>{
+                    var usuario;
+                    for(var i = 0; i < res.data.length; i++){
+                        if(userName == res.data[i].nomUsuario){             //storage usuario
+                            usuario = res.data[i];
+                            //console.log(usuario)
+                        }
+                    }
+                
+                    for(var i = 0; i < marcas.length; i++){
+                        if(marcas[i].esUltimaLeida === true && libro.id == marcas[i].libro && usuario.id == marcas[i].usuario){
+                            marcpag = marcas[i];
+                            
+                        }
+                    }
 
-            if(primera === 0){
-                var pagina = marcpag.pagina;
-                primera = 1;
-            }else{
-                pagina = textopag.pagina+1;
-            }
+                    console.log("Next")
+                    console.log(marcpag.pagina)
+                    var pagina;
+                    if(primera === 0){
+                        pagina = marcpag.pagina;
+                        primera = 1;
+                    }else{
+                        pagina = textopag.pagina+1;
+                    }
+                    console.log(pagina)
 
-            textopag2 = textopag;
-            axios.get(baseUrl + '/leerLibro/' + libroName + '/' + pagina).then(res=>{         //storage libro
-                textopag = res.data;
-            })
+                    textopag2 = textopag;
+                    axios.get(baseUrl + '/leerLibro/' + libroName + '/' + pagina).then(res=>{         //storage libro
+                        textopag = res.data;
+                    })
 
-            var element = document.getElementById("contenidoLibro");
-            node = document.createElement("div");
-            textNode = document.createTextNode(textopag.contenido);
-            node.appendChild(textNode);
-            element.replaceChild(node, element.childNodes[0]);
+                    var element = document.getElementById("contenidoLibro");
+                    node = document.createElement("div");
+                    textNode = document.createTextNode(textopag.contenido);
+                    node.appendChild(textNode);
+                    element.replaceChild(node, element.childNodes[0]);
 
-            element = document.getElementById("pag");
-            node2 = document.createElement("h4");
-            textNode2 = document.createTextNode("Pagina " + textopag.pagina);
-            node2.appendChild(textNode2);
-            element.replaceChild(node2, element.childNodes[0]);
+                    element = document.getElementById("pag");
+                    node2 = document.createElement("h4");
+                    textNode2 = document.createTextNode("Pagina " + textopag.pagina);
+                    node2.appendChild(textNode2);
+                    element.replaceChild(node2, element.childNodes[0]);
 
-            const marca = {pagina: textopag.pagina};
-            axios.put(baseUrl + '/updateMarcaAndroid/' + userName + '/' + libroName + '/', marca);     //storage libro y usuario
-            accion = 1;
+                    const marca = {pagina: textopag.pagina};
+                    axios.put(baseUrl + '/updateMarcaAndroid/' + userName + '/' + libroName + '/', marca);     //storage libro y usuario
+                    accion = 1;
+                });
+            });
         });
     }
 
@@ -133,7 +160,7 @@ class Epub extends Component {
                 for(var i = 0; i < res.data.length; i++){
                     if(libroName == res.data[i].nombre){        //storage libro
                         libro = res.data[i];
-                        console.log(libro);
+                        //console.log(libro);
                     }                                                
                 }
                 
@@ -142,35 +169,34 @@ class Epub extends Component {
                     for(var i = 0; i < res.data.length; i++){
                         if(userName == res.data[i].nomUsuario){             //storage usuario
                             usuario = res.data[i];
-                            console.log(usuario)
+                            //console.log(usuario)
                         }
                     }
 
                     var leido = false, marcpag;
                     for(var i = 0; i < marcas.length; i++){
-                        console.log(i)
                         if(marcas[i].esUltimaLeida === false && libro.id == marcas[i].libro && usuario.id == marcas[i].usuario){              
                             var element = document.getElementById("marks");
                             node = document.createElement("option");
                             textNode = document.createTextNode(marcas[i].nombre);
                             node.appendChild(textNode);
                             element.appendChild(node);
-                            console.log("1")
-                        }else{
-                            console.log(leido);
+                        }else if(marcas[i].esUltimaLeida === true && libro.id == marcas[i].libro && usuario.id == marcas[i].usuario){
                             leido = true;
                         }
                     }
 
                     if(!leido){
-                        //storage usuario y libro, nombre
-                        const marca = {nombre: "MarcaPaginas"+libroName, pagina: 1, esUltimaLeida: 1, usuario: userName, libro: libroName}  
+                        //Cambio es Ult
+                        console.log("hola")
+                        const marca = {nombre: "MarcaPaginas"+libroName, pagina: 1, esUlt: 1, usuario: userName, libro: libroName}  
                         axios.post(baseUrl + '/createMarca/', marca);
                     }
 
                     for(var i = 0; i < marcas.length; i++){
-                        if(marcas[i].esUltimaLeida === true){
+                        if(marcas[i].esUltimaLeida === true && libro.id == marcas[i].libro && usuario.id == marcas[i].usuario){
                             marcpag = marcas[i];
+                            console.log(marcpag);
                         }
                     }
 
@@ -358,6 +384,7 @@ class Epub extends Component {
     searchWord(){
         var palabra = document.getElementById("word").value;
         //console.log(textopag.contenido.search(pagina));
+        console.log(textopag2)
         var texto = textopag2.contenido.split(" ");
         var coincidencia = [], j = 0, txt = "";
 

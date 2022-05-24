@@ -47,6 +47,24 @@ function HomeScreen (props) {
     const handleLeerLibro = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
       console.log(nombreUser)
+      localStorage.setItem('nomLibro', book.nombre)
+      const libro = localStorage.getItem('nomLibro')
+      if(localStorage.length == 0){
+        window.location.href = '/sign-in';
+      }
+      else{
+        console.log(libro)
+        console.log(nombreUser)
+        //axios.get(leerLibro + book.nombre + ".pdf" + "/1")
+        window.location.href = '/epub-viewer';
+      }
+    }
+
+    const handleShare = (book) => {
+      const nombreUser = localStorage.getItem('nomUsuario')
+      console.log(nombreUser)
+      localStorage.setItem('nomLibro', book.nombre)
+      const libro = localStorage.getItem('nomLibro')
       if(localStorage.length == 0){
         window.location.href = '/sign-in';
       }
@@ -56,9 +74,9 @@ function HomeScreen (props) {
         console.log(libro)
         console.log(nombreUser)
         //axios.get(leerLibro + book.nombre + ".pdf" + "/1")
-        window.location.href = '/epub-viewer';
+        window.location.href = '/share';
       }
-    }
+    }    
 
     const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
@@ -92,6 +110,9 @@ function HomeScreen (props) {
                   <div class="d-grid gap-2">
                     <button type="submit" onClick={() => handleLeerLibro(book)} className="btn btn-success btn-lock btn-lg">Leer</button>
                   </div>
+                  <div class="d-grid gap-2">
+                    <button type="submit" onClick={() => handleShare(book)} className="btn btn-warning btn-lock btn-lg">Compartir</button>
+                  </div>
                 </div>
               </div>
             );
@@ -104,7 +125,7 @@ function HomeScreen (props) {
 
     return (
       <div className="ui grid container">
-      <h1>CATÁLOGO DE LIBROS</h1>
+      <h1>MIS LIBROS</h1>
       <div>
         <br></br>
         <h5><Link className="pdf-btn" to={"/library-pdf"}><img src={goToPDF} width="30" height="30"></img>Ir a mis documentos</Link></h5>

@@ -2,17 +2,41 @@
   "name": "itreader_work",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://db-itreader-unizar.herokuapp.com/itreaderApp",
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.8.0",
+    "@react-pdf-viewer/core": "^3.3.2",
+    "@react-pdf-viewer/default-layout": "^3.3.2",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "babel-plugin-macros": "^3.1.0",
     "bootstrap": "^5.1.3",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "bootstrap-icons": "^1.8.2",
+    "pdfjs-dist": "^2.14.305",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-epub-viewer": "^0.2.0",
+    "react-paginate": "^8.1.3",
+    "react-pdf": "^5.7.2",
+    "react-pdf-to-image": "^1.0.2",
+    "react-reader": "^0.21.1",
+    "react-redux": "^8.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
+    "reactstrap": "^9.0.2",
+    "redux": "^4.2.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.1.2",
     "sweetalert": "^2.1.2",
+    "swiper": "^8.1.5",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
@@ -39,5 +63,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.5.x"
+  },
+  "devDependencies": {
+    "worker-loader": "^3.0.8"
   }
 }

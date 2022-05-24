@@ -1,2 +1,0 @@
-blueback: #201c54; 
-greenback: #9f6739;

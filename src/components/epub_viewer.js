@@ -25,93 +25,168 @@ class Epub extends React.Component {
         //this.handleChange = this.handleChange.bind(this)
     }
 
-    
+
 
     handleSubmit = () => {
-        
+
         console.log("He pulsado boton de registrar");
 
-        this.Next(); 
+        this.Next();
     }
 
-    nextpage(){
-        if(primera === 0){
-            var pagina = 0;
-            primera = 1;
-        }else{
-            pagina = textopag.pagina;
-        }
-       textopag2 = textopag;
-        console.log("Pagina " + pagina);
-        axios.get(baseUrl + '/leerLibro/libro.epub/' + (pagina+1)).then(res=>{
-            //this.state.texto.contenido = res.data.contenido;
-            textopag = res.data;
-        })
-        //console.log(textopag);
-        var element = document.getElementById("contenidoLibro");
-        node = document.createElement("div");
-        textNode = document.createTextNode(textopag.contenido);
-        node.appendChild(textNode);
-        element.replaceChild(node, element.childNodes[0]);
+    nextpage(){                         
+        var marcpag
+        axios.get(baseUrl + '/MarcasUsuario/Alvaro')                //storage usuario
+        .then(res =>{
+            for(var i = 0; i < res.data.length; i++){
+                if(res.data[i].esUltimaLeida === true){
+                    marcpag = res.data[i];
+                }
+            }
 
-        element = document.getElementById("pag");
-        node2 = document.createElement("h4");
-        textNode2 = document.createTextNode("Pagina " + textopag.pagina);
-        node2.appendChild(textNode2);
-        element.replaceChild(node2, element.childNodes[0]);
+            if(primera === 0){
+                var pagina = marcpag.pagina;
+                primera = 1;
+            }else{
+                pagina = textopag.pagina+1;
+            }
+
+            textopag2 = textopag;
+            axios.get(baseUrl + '/leerLibro/libro1.epub/' + pagina).then(res=>{         //storage libro
+                textopag = res.data;
+            })
+
+            var element = document.getElementById("contenidoLibro");
+            node = document.createElement("div");
+            textNode = document.createTextNode(textopag.contenido);
+            node.appendChild(textNode);
+            element.replaceChild(node, element.childNodes[0]);
+
+            element = document.getElementById("pag");
+            node2 = document.createElement("h4");
+            textNode2 = document.createTextNode("Pagina " + textopag.pagina);
+            node2.appendChild(textNode2);
+            element.replaceChild(node2, element.childNodes[0]);
+
+            const marca = {pagina: textopag.pagina};
+            axios.put(baseUrl + '/updateMarca/MarcaPaginas' + textopag.libro + '/', marca);     //storage libro
+        });
     }
 
-    previouspage(){
-        if(textopag.pagina === 0){
-            return
-        }
-        textopag2 = textopag;
-        var pagina = textopag.pagina;
-        console.log(pag)
-        axios.get(baseUrl + '/leerLibro/libro.epub/' + (pagina-1))
-        .then(res=>{
-            textopag = res.data;
-        })
-        console.log(textopag);
-        var element = document.getElementById("contenidoLibro");
-        console.log(element);
-        node = document.createElement("div");
-        textNode = document.createTextNode(textopag.contenido);
-        node.appendChild(textNode);
-        element.replaceChild(node, element.childNodes[0]);
+    previouspage(){                         //Cambiar libro1.epub por storage
+        var marcpag
+        axios.get(baseUrl + '/MarcasUsuario/Alvaro')            //storage usuario
+        .then(res =>{
+            for(var i = 0; i < res.data.length; i++){
+                if(res.data[i].esUltimaLeida === true){
+                    marcpag = res.data[i];
+                }
+            }
 
-        element = document.getElementById("pag");
-        console.log(element);
-        node2 = document.createElement("h4");
-        textNode2 = document.createTextNode("Pagina " + textopag.pagina);
-        node2.appendChild(textNode2);
-        element.replaceChild(node2, element.childNodes[0]);
+            if(primera === 0){
+                console.log(marcpag)
+                var pagina = marcpag.pagina;
+                primera = 1;
+            }else{
+                console.log(textopag.pagina);
+                pagina = textopag.pagina+1;
+            }
+
+            console.log(pagina)
+            if(textopag.pagina === 0){
+                return
+            }
+            textopag2 = textopag;
+            var pagina = textopag.pagina;
+            axios.get(baseUrl + '/leerLibro/libro1.epub/' + (pagina-1))             //storage libro
+            .then(res=>{
+                textopag = res.data;
+            })
+            console.log(textopag);
+            var element = document.getElementById("contenidoLibro");
+            node = document.createElement("div");
+            textNode = document.createTextNode(textopag.contenido);
+            node.appendChild(textNode);
+            element.replaceChild(node, element.childNodes[0]);
+    
+            element = document.getElementById("pag");
+            node2 = document.createElement("h4");
+            textNode2 = document.createTextNode("Pagina " + textopag.pagina);
+            node2.appendChild(textNode2);
+            element.replaceChild(node2, element.childNodes[0]);
+    
+            const marca = {pagina: textopag.pagina};
+            axios.put(baseUrl + '/updateMarca/MarcaPaginas' + textopag.libro + '/', marca);         //storage libro
+        });
     }
 
 
-    componentDidMount(){
+    componentDidMount(){                
         if(pag == undefined){
             pag = 1;
         }
-        axios.get(baseUrl + '/leerLibro/libro.epub/' + (pag+1))
-        .then(res=>{
-            const texto = res.data;
-            this.setState({texto});
-            var element = document.getElementById("contenidoLibro");
-            node = document.createElement("div");
-            textNode = document.createTextNode(res.data.contenido);
-            node.appendChild(textNode);
-            element.appendChild.appendChild(node)
-            textopag = res.data;
+        axios.get(baseUrl + '/MarcasUsuario/Alvaro')                //storage usuario
+        .then(res =>{
+            var marcas = res.data;
 
-            element = document.getElementById("pag");
-            console.log(element);
-            node2 = document.createElement("h4");
-            textNode2 = document.createTextNode("Pagina " + res.data.pagina);
-            node2.appendChild(textNode2);
-            element.appendChild(node2)
-        })
-        
+            axios.get(baseUrl + '/Libros/').then(res =>{
+                var libro;
+                for(var i = 0; i < res.data.length; i++){
+                    if("libro1.epub" == res.data[i].nombre){        //storage libro
+                        libro = res.data[i];
+                    }                                                
+                }
+                
+                axios.get(baseUrl + '/Usuarios/').then(res =>{
+                    var usuario;
+                    for(var i = 0; i < res.data.length; i++){
+                        if("Alvaro" == res.data[i].nomUsuario){             //storage usuario
+                            usuario = res.data[i];
+                        }
+                    }
+
+                    var leido = false, marcpag;
+                    for(var i = 0; i < marcas.length; i++){
+
+                        if(marcas[i].esUltimaLeida === false && libro.id == marcas[i].libro && usuario.id == marcas[i].usuario){              
+                            var element = document.getElementById("marks");
+                            node = document.createElement("option");
+                            textNode = document.createTextNode(marcas[i].nombre);
+                            node.appendChild(textNode);
+                            element.appendChild(node);
+                        }else{
+                            leido = true;
+                        }
+                    }
+
+                    if(!leido){
+                        //storage usuario y libro, nombre
+                        const marca = {nombre: "MarcaPaginaslibro1.epub", pagina: 1, esUltimaLeida: 1, usuario:"Alvaro", libro: "libro1.epub"}  
+                        axios.post(baseUrl + '/createMarca/', marca);
+                    }
+
+                    for(var i = 0; i < marcas.length; i++){
+                        if(marcas[i].esUltimaLeida === true){
+                            marcpag = marcas[i];
+                        }
+                    }
+
+                    axios.get(baseUrl + '/leerLibro/libro1.epub/' + marcpag.pagina)         //storage libro
+                    .then(res=>{
+                        textopag = res.data;
+                        const texto = res.data;
+                        this.setState({texto});
+
+                        var element = document.getElementById("pag");
+                        node2 = document.createElement("h4");
+                        textNode2 = document.createTextNode("Pagina " + res.data.pagina);
+                        node2.appendChild(textNode2);
+                        element.appendChild(node2)
+                        
+                    });
+                });
+            });
+        });
     }
 
     changeSize(){
@@ -131,18 +206,34 @@ class Epub extends React.Component {
     }
 
     changeFont(){
-        if(font === 0){
-            var element = document.getElementById("contenidoLibro");
-            element.style.fontFamily = "verdana";
-            font = 1;
-        }else if(font === 1){
-            element = document.getElementById("contenidoLibro");
-            element.style.fontFamily = "Arial";
-            font = 2;
+        if(primera === 0){
+            if(font === 0){
+                var element = document.getElementById("contenidoLibro");
+                element.style.fontFamily = "verdana";
+                font = 1;
+            }else if(font === 1){
+                element = document.getElementById("contenidoLibro");
+                element.style.fontFamily = "Arial";
+                font = 2;
+            }else{
+                element = document.getElementById("contenidoLibro");
+                element.style.fontFamily = "Times New Roman";
+                font = 0;
+            }
         }else{
-            element = document.getElementById("contenidoLibro");
-            element.style.fontFamily = "Times New Roman";
-            font = 0; 
+            if(font === 0){
+                var element = document.getElementById("contenidoLibro");
+                element.childNodes[0].style.fontFamily = "verdana";
+                font = 1;
+            }else if(font === 1){
+                element = document.getElementById("contenidoLibro");
+                element.childNodes[0].style.fontFamily = "Arial";
+                font = 2;
+            }else{
+                element = document.getElementById("contenidoLibro");
+                element.childNodes[0].style.fontFamily = "Times New Roman";
+                font = 0;
+            }
         }
     }
 
@@ -169,8 +260,7 @@ class Epub extends React.Component {
         var pagina = document.getElementById("num").value;
         console.log(pagina)
 
-        axios.get(baseUrl + '/leerLibro/libro.epub/' + pagina).then(res=>{
-            //this.state.texto.contenido = res.data.contenido;
+        axios.get(baseUrl + '/leerLibro/libro1.epub/' + pagina).then(res=>{             //storage libro
             textopag = res.data;
         })
         console.log(textopag);
@@ -186,40 +276,87 @@ class Epub extends React.Component {
         node2.appendChild(textNode2);
         element.replaceChild(node2, element.childNodes[0]);
         pag = textopag.pagina;
+
+        console.log(textopag.pagina);
+        console.log(textopag.libro);
+        const marca = {pagina: textopag.pagina};
+        console.log(marca)
+        axios.put(baseUrl + '/updateMarca/MarcaPaginas' + textopag.libro + '/', marca);         //storage libro
     }
 
-    savePage(){
-        const marca = {nombre: document.getElementById("mark").value, pagina: textopag.pagina, offset:"0 ", esUltimaLeida:false, usuario:"", libro: textopag.libro}
-        axios.post(baseUrl + '/createMarca/', pag)
-        .then(response => this.setState({ status: true }));
-        this.updateMarks();
+    saveMark(){
+        const marca = {nombre: document.getElementById("mark").value, pagina: (textopag.pagina-1), esUltimaLeida:0, usuario:"Alvaro", libro: textopag.libro}
+        //storage usuario, libro
+        axios.post(baseUrl + '/createMarca/', marca);
+        console.log(marca);
+
+        var element = document.getElementById("marks");
+        node = document.createElement("option");
+        textNode = document.createTextNode(document.getElementById("mark").value);
+        node.appendChild(textNode);
+        element.appendChild(node);
     }
 
-    removePage(){
-        // axios.post(baseUrl + '/deleteMarca/' + pag, pag)
-        // .then(response => this.setState({ status: true }));
-        // this.updateMarks();
+    removeMark(){
+        var element = document.getElementById("marks");
+        while(element.length !== 0){
+            console.log(element.childNodes[0])
+            element.removeChild(element.childNodes[0]);
+        }
+
+        var marca = document.getElementById("mark").value;
+        axios.delete(baseUrl + '/deleteMarca/' + marca + '/');
+
+        axios.get(baseUrl + '/MarcasUsuario/Alvaro')                //storage usuario
+        .then(res =>{
+            var marcas = res.data;
+            
+            axios.get(baseUrl + '/Libros/').then(res =>{
+                var libro;
+                for(var i = 0; i < res.data.length; i++){
+                    if("libro1.epub" == res.data[i].nombre){            //storage libro
+                        libro = res.data[i];
+                    }                                                
+                }
+
+                axios.get(baseUrl + '/Usuarios/').then(res =>{
+                    var usuario;
+                    for(var i = 0; i < res.data.length; i++){
+                        if("Alvaro" == res.data[i].nomUsuario){             //storage usuario
+                            usuario = res.data[i];
+                        }
+                    }
+
+                    for(var i = 0; i < marcas.length; i++){
+                        if(marcas[i].nombre !== marca && libro.id === marcas[i].libro && usuario.id == marcas[i].usuario ){                 ///storage comprobar libro
+                            var element = document.getElementById("marks");
+                            node = document.createElement("option");
+                            textNode = document.createTextNode(marcas[i].nombre);
+                            node.appendChild(textNode);
+                            element.appendChild(node);
+                        }
+                    }
+                });
+            });
+        });
     }
 
-    updateMarks(){
-        axios.post(baseUrl + '/deleteMarca/' + pag, pag)
-        .then(response => this.setState({ status: true }));
-    }
 
     searchWord(){
         var palabra = document.getElementById("word").value;
         //console.log(textopag.contenido.search(pagina));
         var texto = textopag2.contenido.split(" ");
         var coincidencia = [], j = 0, txt = "";
-        
+
         for(var i = 0; i < texto.length; i++){
-            if(texto[i] == palabra){
+            //Tiene que ser con doble igual, no triple
+            if(texto[i] == palabra){                    
                 coincidencia[j] = i;
                 j = j + 1;
             }
         }
 
-        
+
 
         console.log(coincidencia)
         if(coincidencia === undefined){
@@ -240,43 +377,82 @@ class Epub extends React.Component {
         }
     }
 
+    jumpMark(){
+        var marca = document.getElementById("marks");
+        var mark;
+
+
+        axios.get(baseUrl + '/MarcasUsuario/Alvaro')            //storage usuario
+        .then(res =>{
+            for(var i = 0; i < res.data.length; i++){
+                if(res.data[i].nombre === marca.value){
+                    mark = res.data[i];
+                    console.log(mark)
+                }
+            }
+
+            textopag2 = textopag;
+
+        axios.get(baseUrl + '/leerLibro/libro1.epub/' + mark.pagina).then(res=>{      //storage libro
+            textopag = res.data;
+        })
+        var element = document.getElementById("contenidoLibro");
+        node = document.createElement("div");
+        textNode = document.createTextNode(textopag.contenido);
+        node.appendChild(textNode);
+        element.replaceChild(node, element.childNodes[0]);
+
+        element = document.getElementById("pag");
+        node2 = document.createElement("h4");
+        textNode2 = document.createTextNode("Pagina " + textopag.pagina);
+        node2.appendChild(textNode2);
+        element.replaceChild(node2, element.childNodes[0]);
+        pag = textopag.pagina;
+        });
+        
+    }
+
 
     render() {
         return (
-            <div onSubmit={this.handleSubmit} className="space">
-                <button className="boton" onClick={this.changeSize}><h4>Letter size </h4></button>
-                <button type="button" onClick={this.changeFont}><h4> Font </h4></button>
-                <button type="button" onClick={this.changeColor}><h4> Background Color </h4></button>
-                <input type="text" className="borde" id="word" value="Palabra a buscar"></input>
-                <button type="button" onClick={this.searchWord}>Buscar</button><br/>
+            <div onSubmit={this.handleSubmit}>
+                <button onClick={this.changeSize}><h4>Size</h4></button><labael> </labael>
+                <button type="button" onClick={this.changeFont}><h4>Font</h4></button><labael> </labael>
+                <button type="button" onClick={this.changeColor}><h4>Background Color</h4></button><labael> </labael>
+                <label>Word:</label>
+                <input type="text" id="word" size="10"></input>
+                <button type="button" onClick={this.searchWord}><h4>Search</h4></button><br/>
 
-                <input type="text" className="borde" id="mark" value="Nombre de la marca"></input>
-                <button type="button" onClick={this.savePage}><h4>Save Mark</h4></button>
-                <button type="button" onClick={this.removePage}><h4>Delete Mark</h4></button>
+                <input type="text" id="mark"></input>
+                <button type="button" onClick={this.saveMark}><h4>Save Mark</h4></button><labael> </labael>
+                <button type="button" onClick={this.removeMark}><h4>Delete Mark</h4></button><br/><labael> </labael>
+
                 <select name="Marks" id="marks"></select>
+                <button onClick={this.jumpMark}><h4>Jump Mark</h4></button>
+                
                 <br/><br/>
-                <div className="scroll">
+                <div>
                     <nav>
-                        <h2>{this.state.texto.libro}</h2>
+                        <h2 id="contLib">{this.state.texto.libro}</h2>
                         <div id="contenidoLibro">{this.state.texto.contenido}</div>
-                        
+
                         <br/>
-                        <h4 id="pag">Pagina </h4>
-                        <button onClick={this.nextpage}><h4>Next</h4></button>
+                        <h4 id="pag"></h4>
+                        <button onClick={this.nextpage}><h4>Next</h4></button><labael> </labael>
                         <button onClick={this.previouspage}><h4>Previous</h4></button><br/>
                         <label>Ir a la pagina: </label>
-                        <input type="text" className="borde" id="num"></input>
-                        <button type="button" onClick={this.changePag}>Saltar</button>
+                        <input type="text" id="num"></input>
+                        <button type="button" onClick={this.changePag}><h4>Go</h4></button>
                     </nav>
                 </div>
             </div>
-            
+
         );
     }
 }
 
 class EpubViewer extends React.Component{
-    
+
     render(){
         const history = this.props.history;
         return(

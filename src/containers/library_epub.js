@@ -7,6 +7,7 @@ import "../css/App.css";
 import goToPDF from "../bootstrap-icons/file-earmark-pdf.svg"
 
 const urlEPUB = "https://db-itreader-unizar.herokuapp.com/itreaderApp/LibrosUser/"
+const leerLibro = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
 const urlDelBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibroUsuario/"
 
 function HomeScreen (props) {
@@ -43,13 +44,28 @@ function HomeScreen (props) {
       }
     }
 
+    const handleLeerLibro = (book) => {
+      const nombreUser = localStorage.getItem('nomUsuario')
+      console.log(nombreUser)
+      if(localStorage.length == 0){
+        window.location.href = '/sign-in';
+      }
+      else{
+        localStorage.setItem('nomLibro', book.nombre)
+        const libro = localStorage.getItem('nomLibro')
+        console.log(libro)
+        console.log(nombreUser)
+        //axios.get(leerLibro + book.nombre + ".pdf" + "/1")
+        window.location.href = '/epub-viewer';
+      }
+    }
+
     const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
           .map((book) => {
             return (
               <div className="contenido">
                 <div className="ui grid container" key={book.id}>
-                  <Link to={'/book/' + book.id}>
                     <div className="ui link cards">
                       <div className="card">
                         <div className="image">
@@ -63,7 +79,6 @@ function HomeScreen (props) {
                         </div>
                         <div className="content">
                           <div className="header">
-                            <Link to={'/product/' + book.id}></Link>
                           </div>
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.autor}</div>
@@ -71,9 +86,11 @@ function HomeScreen (props) {
                         </div>
                       </div>
                     </div>
-                  </Link>
                   <div class="d-grid gap-2">
                     <button type="submit" onClick={() => handleDeleteBook(book)} className="btn btn-danger btn-lock btn-lg">Eliminar de la librería</button>
+                  </div>
+                  <div class="d-grid gap-2">
+                    <button type="submit" onClick={() => handleLeerLibro(book)} className="btn btn-success btn-lock btn-lg">Leer</button>
                   </div>
                 </div>
               </div>

@@ -53,7 +53,8 @@ function HomeScreen (props) {
         window.location.href = '/sign-in';
       }
       else{
-        console.log(book.nombre)
+        const libro = localStorage.setItem('nomLibro', book.nombre)
+        console.log(libro)
         console.log(nombreUser)
         axios.get(leerPDF + book.nombre + ".pdf" + "/1")
         //window.location.href = '/library-pdf';

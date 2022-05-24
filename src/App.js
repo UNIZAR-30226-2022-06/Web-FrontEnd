@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import editProfile from "./pages/editProfile";
 import bookUpload from "./pages/bookUpload";
 import BookListing from "./containers/BookListing";
+import epubViewer from "./components/epub_viewer";
 import libEPUB from "./containers/library_epub";
 import libPDF from "./containers/library_pdf";
 
@@ -54,9 +55,9 @@ function App() {
         </div>
       </div>
     </header>
-      
-      <div className='ui grid container'>
-      </div>
+
+    <div className='ui grid container'>
+    </div>
 
       <div className="App">      
         <div className="auth">
@@ -75,7 +76,15 @@ function App() {
             </Switch>
           </div>
         </div>
+          <div className='auth-wrapper'>
+            <div className='auth-inner'>
+              <Switch>
+                <Route path="/epub-viewer" component={epubViewer} />
+              </Switch>
+            </div>
+          </div>
       </div>
+      
 
     </Router>
   );

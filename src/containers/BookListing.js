@@ -47,7 +47,6 @@ function HomeScreen (props) {
             return (
               <div className="contenido">
                 <div className="ui grid container" key={book.id}>
-                  <Link to={'/book/' + book.id}>
                     <div className="ui link cards">
                       <div className="card">
                         <div className="image">
@@ -61,7 +60,6 @@ function HomeScreen (props) {
                         </div>
                         <div className="content">
                           <div className="header">
-                            <Link to={'/product/' + book.id}></Link>
                           </div>
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.autor}</div>
@@ -69,7 +67,6 @@ function HomeScreen (props) {
                         </div>
                       </div>
                     </div>
-                  </Link>
                   <div class="d-grid gap-2">
                     <button type="submit" onClick={() => handleAdd2Lib(book)} className="btn btn-primary btn-lock btn-lg">Añadir a la librería</button>
                   </div>

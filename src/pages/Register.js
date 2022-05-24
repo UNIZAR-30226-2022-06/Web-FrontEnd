@@ -3,8 +3,7 @@ import axios from 'axios'
 import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
 import "../css/profile.css";
-import "../App.css";
-
+import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 
@@ -55,27 +54,23 @@ class SignUp extends Component {
 
         this.registrarse().then( r =>{
             swal({
-                title: "You have successfully registed.",
-                text: "Log-in just now!",
+                title: "Te has registrado correctamente.",
+                text: "Inicia sesión ahora!",
                 icon: "success",
-                button: "Go to Log-In",
+                button: "Ir a inicio de sesión",
             }).then( resp => {
                 window.location.href = 'sign-in';
             })
         }).catch( err =>{
             swal({
-                title: "Something went wrong",
-                text: "Try to register again in a few minutes",
+                title: "Algo ha ido mal...",
+                text: "Inténtalo de nuevo más tarde",
                 icon: "error"
             })
         });
     }
 
     registrarse = async () => {
-        /*const user = {
-            nombre: this.state.name, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin
-        };*/
-
         await axios.post(baseUrl + "/createUsuario/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin })
             .then( () => {
                 console.log("Exito en el registro");

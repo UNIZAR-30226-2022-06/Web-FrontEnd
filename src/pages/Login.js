@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import "../css/profile.css";
-import "../App.css";
+import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Login/";
 const cookies = new Cookies();
@@ -42,13 +42,21 @@ class SignIn extends React.Component {
             console.log(response.data.nomUsuario);
             console.log(response.data.password);
             if(response.data.nomUsuario == this.state.username && response.data.password == this.state.password){
-                alert("Inicio de sesión con éxito!")
+                swal({
+                    title: "Inicio de sesión correcto",
+                    text: "Comienza a leer!",
+                    icon: "success"
+                })
                 localStorage.setItem('nomUsuario',this.state.username)
                 localStorage.setItem('password',this.state.password)
                 window.location.href= '/catalogue';
             }
             else{
-                alert("Contraseña incorrecta!")
+                swal({
+                    title: "Usuario o contraseña incorrecto!",
+                    text: "Inténtalo de nuevo",
+                    icon: "error"
+                })
             }
         }).catch(error => {
             alert("El usuario no ha podido ser logueado")

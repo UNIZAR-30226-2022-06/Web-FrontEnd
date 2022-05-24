@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
-import "../App.css"
+import "../css/App.css";
+
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
+const urlAddBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/addDocsUsuario/";
 
 function HomeScreen (props) {
 
@@ -25,6 +27,20 @@ function HomeScreen (props) {
       };
     }, []);
     
+    const handleAdd2Lib = (book) => {
+      const nombreUser = localStorage.getItem('nomUsuario')
+      console.log(nombreUser)
+      if(localStorage.length == 0){
+        window.location.href = '/sign-in';
+      }
+      else{
+        console.log(book.nombre)
+        console.log(nombreUser)
+        axios.put(urlAddBook + nombreUser + "/", {nomLibro: book.nombre}) 
+        window.location.href = '/library-epub';
+      }
+    }
+
     const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
           .map((book) => {
@@ -55,7 +71,7 @@ function HomeScreen (props) {
                     </div>
                   </Link>
                   <div class="d-grid gap-2">
-                    <a type="submit" className="btn btn-primary btn-lock btn-lg" href={"/library-epub"}>Añadir a la librería</a>
+                    <button type="submit" onClick={() => handleAdd2Lib(book)} className="btn btn-primary btn-lock btn-lg">Añadir a la librería</button>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,7 @@ function HomeScreen (props) {
   const [book, setBook] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
 
-  const booksPerPage = 12;
+  const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
 
   useEffect(() => {

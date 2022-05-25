@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import "../css/App.css";
 import pencilIcon from "../images/icons8_pencil_drawing.ico";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios/";
 
 function HomeScreen (props) {
+  let history = useHistory();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -63,7 +65,7 @@ function HomeScreen (props) {
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">
-                                <a type="submit" href="/catalogue" className="btn btn-primary btn-lock btn-lg">Volver</a>
+                                <a onClick={() => history.goBack()} className="btn btn-primary btn-lock btn-lg">Volver</a>
                             </div>
                             <div class="d-grid gap-2">
                                 <a onClick={handleLogout} type="submit" className="danger-btn btn-warning btn-lock btn-lg" href={"/sign-in"}>Cerrar sesión</a>

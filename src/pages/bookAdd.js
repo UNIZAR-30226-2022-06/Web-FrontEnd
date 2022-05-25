@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import swal from 'sweetalert';
+import { useHistory } from 'react-router-dom';
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/subirLibro/";
 
@@ -9,6 +10,7 @@ function App() {
 	const [ cover, setCover ] = useState();	
 	const nomUser = localStorage.getItem('nomUsuario');
 
+	let history = useHistory();
 	const newBook = () => {
 	  const uploadData = new FormData();
 	  uploadData.append('usuario', nomUser);
@@ -48,7 +50,7 @@ function App() {
 				<button className="btn btn-success btn-lock btn-lg" onClick={() => newBook()}>Importar</button>
 			</div>
 			<div class="d-grid gap-2">
-				<a type="submit" href="/admin-catalogue" className="btn btn-danger btn-lock btn-lg">Volver</a>
+				<a onClick={() => history.goBack()} className="btn btn-danger btn-lock btn-lg">Volver</a>
 			</div>
 		</div>
 	  </div>

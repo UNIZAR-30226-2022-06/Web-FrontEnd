@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import "../css/App.css";
 import uploadPDF from "../bootstrap-icons/file-earmark-arrow-up.svg"
 import goToBooks from "../bootstrap-icons/book.svg"
 import pdfIcon from "../images/pdf_icon.png"
+import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 const urlPDF = "https://db-itreader-unizar.herokuapp.com/itreaderApp/DocumentosUser/"
 const leerPDF = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
@@ -19,7 +20,8 @@ function HomeScreen (props) {
 
   const booksPerPage = 12;
   const pagesVisited = pageNumber * booksPerPage;
-
+  
+  let history = useHistory();
   useEffect(() => {
     const nombreusuario = localStorage.getItem('nomUsuario')
     const fetchBooks = async () => {
@@ -139,6 +141,9 @@ function HomeScreen (props) {
     return (
       <div className="ui grid container">
       <h1>MIS DOCUMENTOS</h1>
+      <div>
+        <button className="back-btn" onClick={() => history.goBack()}><img src={goBackBtn}></img></button>
+      </div>
       <div>
         <br></br>
         <h5><Link className="pdf-btn" to={"/book-upload"}><img src={uploadPDF} width="30" height="30"></img>Subir documento</Link></h5>

@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import "../css/App.css";
 
 import goToPDF from "../bootstrap-icons/file-earmark-pdf.svg"
+import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 const urlEPUB = "https://db-itreader-unizar.herokuapp.com/itreaderApp/LibrosUser/"
 const leerLibro = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
 const urlDelBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibroUsuario/"
 
 function HomeScreen (props) {
-  
+
   const [book, setBook] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
 
   const booksPerPage = 12;
   const pagesVisited = pageNumber * booksPerPage;
 
+  let history = useHistory();
   useEffect(() => {
     const fetchBooks = async () => {
         const nombreusuario = localStorage.getItem('nomUsuario')
@@ -126,6 +128,9 @@ function HomeScreen (props) {
     return (
       <div className="ui grid container">
       <h1>MIS LIBROS</h1>
+      <div>
+        <button className="back-btn" onClick={() => history.goBack()}><img src={goBackBtn}></img></button>
+      </div>
       <div>
         <br></br>
         <h5><Link className="pdf-btn" to={"/library-pdf"}><img src={goToPDF} width="30" height="30"></img>Ir a mis documentos</Link></h5>

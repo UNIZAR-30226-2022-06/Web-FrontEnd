@@ -479,8 +479,8 @@ class Epub extends Component {
 
                         <br/>
                         <h4 id="pag"></h4>
-                        <button onClick={this.nextpage}><h4>Next</h4></button><labael> </labael>
                         <button onClick={this.previouspage}><h4>Previous</h4></button><br/>
+                        <button onClick={this.nextpage}><h4>Next</h4></button><labael> </labael>
                         <label>Ir a la pagina: </label>
                         <input type="text" id="num"></input>
                         <button type="button" onClick={this.changePag}><h4>Go</h4></button>

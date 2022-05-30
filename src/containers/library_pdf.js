@@ -154,9 +154,10 @@ function HomeScreen (props) {
       </grid-section>
       <br></br>
       <br></br>
+      <div className="pagination-grid"> 
         <ReactPaginate
-          previousLabel={"<--"}
-          nextLabel={"-->"}
+          previousLabel={"<<<"}
+          nextLabel={">>>"}
           pageCount={pageCount}
           onPageChange={changePage}
           containerClassName={"paginationBttns"}
@@ -165,6 +166,7 @@ function HomeScreen (props) {
           disabledClassName={"paginationDisabled"}
           activeClassName={"paginationActive"}
         />
+      </div>
     </div>
   );
 };

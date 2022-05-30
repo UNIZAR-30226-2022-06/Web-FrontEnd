@@ -7,6 +7,38 @@ import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 
+// Expresión regular para validar formato de correo electrónico
+const regExpMail = RegExp(
+    /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
+)
+
+// Expresión regular para validar seguridad de la contraseña
+const regExpPass = RegExp(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/
+)
+
+const formValid = ({ isError, ...rest }) => {
+    let isValid = false;
+
+    Object.values(isError).forEach(val => {
+        if (val.length > 0) {
+            isValid = false
+        } else {
+            isValid = true
+        }
+    });
+
+    Object.values(rest).forEach(val => {
+        if (val === null) {
+            isValid = false
+        } else {
+            isValid = true
+        }
+    });
+
+    return isValid;
+}
+
 class SignUp extends Component {
     constructor(props) {
         super(props)
@@ -17,39 +49,30 @@ class SignUp extends Component {
             password: "",
             cPassword: "", 
             nickName: "",
-            esAdmin: false
+            esAdmin: false,
+            isError: {
+                name: '',
+                email: '',
+                password: '',
+                cPassword: ''
+            }
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
-    handleSubmit = (evento) => {
-        
-        console.log("He pulsado boton de registrar");
-        
+    handleSubmit = (evento) => {      
         document.getElementById('nombre').style.borderColor = '#f8f4e5'
         document.getElementById('nickName').style.borderColor = '#f8f4e5'
         document.getElementById('passwd').style.borderColor = '#f8f4e5'
         document.getElementById('mail').style.borderColor = '#f8f4e5'
         
         evento.preventDefault();
-        if (this.state.password !== this.state.cPassword) {
-            alert("Passwords are not equal")
-            return;
-        }
-        if( this.state.email.length === 0 || this.state.nickName.length === 0 ){
-            
-            var valorMail = document.getElementById('mail').value;
-            var valorNick = document.getElementById('nickName').value;
-            if(valorMail === ''){
-                document.getElementById('mail').style.borderColor = 'red'
-            }else{
-                if(valorNick === ''){
-                    document.getElementById('nickName').style.borderColor = 'red'
-                }
-            }
-            return;
+        if (formValid(this.state)) {
+            console.log(this.state)
+        } else {
+            console.log("Form is invalid!");
         }
 
         this.registrarse().then( r =>{
@@ -83,26 +106,54 @@ class SignUp extends Component {
 
     //This function handles the changes on any datafield
     handleChange = (evento) => {
+        evento.preventDefault();
         //Creamos un par con el nombre y el valor del target que este llamando a la funcion
         const { name, value } = evento.target;
         //Guardamos en el estado con el nombre correspondiente el valor correspondiente
+        let isError = { ...this.state.isError };
+        
+        switch (name) {
+            case "email":
+                isError.email = regExpMail.test(value)
+                    ? ""
+                    : "Dirección de correo electrónica no válida.";
+                break;
+            case "password":
+                isError.password = regExpPass.test(value)
+                    ? ""
+                    : "La contraseña debe tener mínimo 8 caracteres y al menos una mayúscula, una minúscula y un número.";
+                break;
+            default:
+                break;
+        }
+
+        this.checkPasswd();
+
         this.setState({
+            isError,
             [name]: value
         });
     }
 
     //Check if password and confirm password are equal
     checkPasswd() {
-        if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
-            document.getElementById('message').style.color = '#04981C';
-            document.getElementById('message').innerHTML = 'Contraseña correcta';
-        } else {
-            document.getElementById('message').style.color = 'red';
-            document.getElementById('message').innerHTML = 'Las contraseñas no coinciden';
+        if (document.getElementById("passwd").value != ""){
+            if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
+                document.getElementById('message').style.color = '#04981C';
+                document.getElementById('message').innerHTML = 'Contraseña correcta.';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Las contraseñas no coinciden.';
+            }
+        }
+        else{
+            document.getElementById('message').innerHTML = '';
         }
     }
    
     render() {
+        const { isError } = this.state;
+
         return (
             <div className="auth-wrapper">
                 <div className="auth-inner">
@@ -126,18 +177,27 @@ class SignUp extends Component {
                             <p></p>
                             <div className="form-group">
                                 <label>Correo electrónico</label>
-                                <input type="email" className="form-control" id="mail" name="email" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                                <input type="email" className={isError.email.length > 0 ? "is-invalid form-control" : "form-control"} id="mail" name="email" placeholder="Introduce tu correo electrónico" onChange={this.handleChange} />
+                                {isError.email.length > 0 && (
+                                    <span className="invalid-feedback">{isError.email}</span>
+                                )}
                             </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" id="passwd" name="password" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <input type="password" id="passwd" name="password" className={isError.password.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Introduce tu contraseña" onChange={this.handleChange} />
+                                {isError.password.length > 0 && (
+                                    <span className="invalid-feedback">{isError.password}</span>
+                                )}
                             </div>
                             <p></p>
                             <div>
                                 <label>Confirmar contraseña</label>
-                                <input type="password" id="cpasswd" name="cPassword" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <input type="password" id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} />
                                 <span id='message' ></span>
+                                {isError.cPassword.length > 0 && (
+                                    <span className="invalid-feedback">{isError.cPassword}</span>
+                                )}
                             </div>
                             <p></p>
                             <br></br>

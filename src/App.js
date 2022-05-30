@@ -3,6 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './css/style.css';
 import "./css/App.css";
+//import "./css/grid.css";
 
 import logoItReader from './images/itReader_logo_small.png';
 import Login from "./pages/Login";
@@ -79,16 +80,14 @@ function App() {
               <Route path="/book-add" component={bookAdd} />
               <Route path="/library-epub" component={libEPUB} />
               <Route path="/library-pdf" component={libPDF} />
+              <div className='wrapper-grid'>
+                <div className='inner-grid'>
+                    <Route path="/epub-viewer" component={epubViewer} />
+                </div>
+              </div>
             </Switch>
           </div>
         </div>
-          <div className='auth-wrapper'>
-            <div className='auth-inner'>
-              <Switch>
-                <Route path="/epub-viewer" component={epubViewer} />
-              </Switch>
-            </div>
-          </div>
       </div>
       
 

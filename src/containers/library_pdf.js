@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import "../css/App.css";
 import Swal from "sweetalert2";
@@ -23,7 +23,6 @@ function HomeScreen (props) {
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
   
-  let history = useHistory();
   useEffect(() => {
     const nombreusuario = localStorage.getItem('nomUsuario')
     const fetchBooks = async () => {

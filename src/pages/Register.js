@@ -87,9 +87,6 @@ class SignUp extends Component {
         const { data } = await axios.get(urlUsers)
         //console.log(data.length);
         for(let i = 0; i < data.length; i++){
-            console.log(data[i].nomUsuario);
-            console.log(data[i].correo);
-            console.log("================================");
             if(data[i].nomUsuario === this.state.nickName){
                 //console.log("Nombre de usuario ya existente");
                 swal({
@@ -123,13 +120,6 @@ class SignUp extends Component {
                     button: "Ir a inicio de sesión",
                 }).then( resp => {
                     window.location.href = 'sign-in';
-                })
-            })
-            .catch(error => {
-                swal({
-                    title: "Algo ha ido mal...",
-                    text: "Inténtalo de nuevo más tarde",
-                    icon: "error"
                 })
             })
 

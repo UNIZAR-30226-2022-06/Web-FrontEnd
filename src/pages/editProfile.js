@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
+import Swal from "sweetalert2";
 import '../css/profile.css';
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
@@ -96,9 +97,27 @@ class EditProfile extends Component {
 
     handleDelete = (evento) => {
         evento.preventDefault();
-        axios.put(baseUrlUPT + userName + "/") 
-        localStorage.clear();
-        window.location.href = '/sign-in';
+        Swal.fire({
+            title: '¿Deseas eliminar tu cuenta?',
+            text: "¡Los cambios serán irreversibles!",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, ¡elimínala!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.put(baseUrlDEL + userName + "/")
+                localStorage.clear();
+                Swal.fire(
+                '¡Borrado!',
+                'La cuenta ha sido eliminada.',
+                'success'
+                )
+                window.location.href = '/sign-in';
+            }
+        })     
     }
 
     checkPasswd() {

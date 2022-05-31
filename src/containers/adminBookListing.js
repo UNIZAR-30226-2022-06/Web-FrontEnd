@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../css/App.css";
 
 import bookAdd from "../bootstrap-icons/plus-circle.svg"
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
-const urlAddBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibro/";
+const urlDelBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibro/";
 
 function HomeScreen (props) {
 
@@ -37,8 +38,26 @@ function HomeScreen (props) {
     else{
       console.log(book.nombre)
       console.log(nombreUser)
-      axios.delete(urlAddBook + book.nombre + "/") 
-      window.location.href = '/admin-catalogue';
+      Swal.fire({
+        title: '¿Deseas borrar el libro?',
+        text: "¡Los cambios serán irreversibles!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, ¡bórralo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(urlDelBook + book.nombre + "/")
+          Swal.fire(
+            '¡Borrado!',
+            'El libro ha sido eliminado del catálogo.',
+            'success'
+            )
+            window.location.href = '/admin-catalogue';
+          }
+      })      
     }
   }
 

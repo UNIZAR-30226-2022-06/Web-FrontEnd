@@ -142,7 +142,7 @@ function HomeScreen (props) {
       <div className="ui grid container">
       <h1>MIS DOCUMENTOS</h1>
       <div>
-        <button className="back-btn" onClick={() => history.goBack()}><img src={goBackBtn}></img></button>
+        <Link className="back-btn" to={"/catalogue"}><img src={goBackBtn}></img></Link>
       </div>
       <div>
         <br></br>

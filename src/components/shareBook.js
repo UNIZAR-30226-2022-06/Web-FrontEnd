@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
-import { withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
+import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/compartirLibro/";
 const userName = localStorage.getItem('nomUsuario')
 const bookName = localStorage.getItem('nomLibro')
 
-class SignIn extends React.Component {
+class SignIn extends Component {
     constructor(props){
         super(props)
         
@@ -17,8 +18,7 @@ class SignIn extends React.Component {
             email: ""
         }
     }
-    
-    
+       
     //This function handles the changes on any datafield
     handleChange = (evento) => {
         //Creamos un par con el nombre y el valor del target que este llamando a la funcion
@@ -52,6 +52,7 @@ class SignIn extends React.Component {
     render() {
         console.log(userName)
         console.log(bookName)
+
         return (
             <div className="auth-wrapper">
                 <div className="auth-inner">
@@ -61,7 +62,7 @@ class SignIn extends React.Component {
                     </div>
                     <section>
                         <form onSubmit={this.handleSubmit}>
-                            <h3>Recupera tu contraseña</h3>
+                            <h3>¡Comparte el libro con tus amigos!</h3>
 
                             <div className="form-group">
                                 <label>Correo electrónico</label>
@@ -81,7 +82,7 @@ class SignIn extends React.Component {
     }
 }
 
-class Login extends React.Component{
+class Login extends Component{
     
     render(){
         const history = this.props.history;

@@ -28,21 +28,21 @@ function HomeScreen (props) {
       };
   }, []);
 
-    const handleDelBook = (book) => {
-      const nombreUser = localStorage.getItem('nomUsuario')
-      console.log(nombreUser)
-      if(localStorage.length == 0){
-        window.location.href = '/sign-in';
-      }
-      else{
-        console.log(book.nombre)
-        console.log(nombreUser)
-        axios.delete(urlAddBook + book.nombre + "/") 
-        window.location.href = '/admin-catalogue';
-      }
+  const handleDelBook = (book) => {
+    const nombreUser = localStorage.getItem('nomUsuario')
+    console.log(nombreUser)
+    if(localStorage.length == 0){
+      window.location.href = '/sign-in';
     }
+    else{
+      console.log(book.nombre)
+      console.log(nombreUser)
+      axios.delete(urlAddBook + book.nombre + "/") 
+      window.location.href = '/admin-catalogue';
+    }
+  }
 
-    const displayBooks = book
+  const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
           .map((book) => {
             return (
@@ -75,14 +75,14 @@ function HomeScreen (props) {
               </div>
             );
             });
-    const pageCount = Math.ceil(book.length / booksPerPage);
+  const pageCount = Math.ceil(book.length / booksPerPage);
 
-    const changePage = ({ selected }) => {
-      setPageNumber(selected);
-    };
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
-    return (
-      <div className="ui grid container">
+  return (
+    <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
       <h5><Link className="pdf-btn" to={"/book-add"}><img src={bookAdd} width="30" height="30"></img>Añadir libro al catálogo</Link></h5>
       <grid-section>

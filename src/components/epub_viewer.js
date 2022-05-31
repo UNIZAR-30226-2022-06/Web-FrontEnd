@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 var pag = 0;
 var node, node2;
@@ -455,6 +457,9 @@ class Epub extends Component {
 
     render() {
         return (
+            <div>
+                <Link className="back-btn-book" to={"/library-epub"}><img src={goBackBtn}></img></Link>
+                <br></br>
             <div className="auth-wrapper">
             <div onSubmit={this.handleSubmit}>
                 <button onClick={this.changeSize}><h4>Size</h4></button><labael> </labael>
@@ -486,6 +491,7 @@ class Epub extends Component {
                         <button type="button" onClick={this.changePag}><h4>Go</h4></button>
                     </nav>
                 </div>
+            </div>
             </div>
             </div>
         );

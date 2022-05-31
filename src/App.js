@@ -60,7 +60,7 @@ function App() {
       </div>
     </header>
 
-    <div className='ui grid container'>
+    <div className='top-margin'>
     </div>
 
       <div className="App">      
@@ -74,8 +74,8 @@ function App() {
               <Route path="/sign-up" component={SignUp} />
               <Route path="/reset" component={ResetPass} />
               <Route path="/profile" component={Profile} />
-              <Route path="/share" component={shareBook} />
               <Route path="/edit-profile" component={editProfile} />
+              <Route path="/share" component={shareBook} />
               <Route path="/book-upload" component={bookUpload} />
               <Route path="/book-add" component={bookAdd} />
               <Route path="/library-epub" component={libEPUB} />

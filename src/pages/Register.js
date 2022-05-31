@@ -5,7 +5,9 @@ import { withRouter } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
 
-const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/"
+const urlUsers = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios/"
+
 
 // Expresión regular para validar formato de correo electrónico
 const regExpMail = RegExp(
@@ -67,6 +69,8 @@ class SignUp extends Component {
         document.getElementById('nickName').style.borderColor = '#f8f4e5'
         document.getElementById('passwd').style.borderColor = '#f8f4e5'
         document.getElementById('mail').style.borderColor = '#f8f4e5'
+
+        console.log(this.state.nickName);
         
         evento.preventDefault();
         if (formValid(this.state)) {
@@ -74,35 +78,63 @@ class SignUp extends Component {
         } else {
             console.log("Form is invalid!");
         }
+        this.fetchUsers();
+/*
+        
+    */}
 
-        this.registrarse().then( r =>{
-            swal({
-                title: "Te has registrado correctamente.",
-                text: "Inicia sesión ahora!",
-                icon: "success",
-                button: "Ir a inicio de sesión",
-            }).then( resp => {
-                window.location.href = 'sign-in';
-            })
-        }).catch( err =>{
-            swal({
-                title: "Algo ha ido mal...",
-                text: "Inténtalo de nuevo más tarde",
-                icon: "error"
-            })
-        });
-    }
+    fetchUsers = async () => {
+        const { data } = await axios.get(urlUsers)
+        //console.log(data.length);
+        for(let i = 0; i < data.length; i++){
+            console.log(data[i].nomUsuario);
+            console.log(data[i].correo);
+            console.log("================================");
+            if(data[i].nomUsuario === this.state.nickName){
+                //console.log("Nombre de usuario ya existente");
+                swal({
+                    title: "Error en el registro",
+                    text: "Ya existe un usuario con ese nombre.",
+                    icon: "error"
+                })
+            }
+            else if(data[i].correo === this.state.email){
+                //console.log("Correo asociado a una cuenta ya existente");
+                swal({
+                    title: "Error en el registro",
+                    text: "Correo electrónico asociado a una cuenta existente.",
+                    icon: "error"
+                })
+            }
+            else{
+                this.registrarse();
+            }
+        }
+    }; 
+    
 
     registrarse = async () => {
-        await axios.post(baseUrl + "/createUsuario/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin })
+        await axios.post(baseUrl + "createUsuario/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email, esAdmin: this.state.esAdmin })
             .then( () => {
-                console.log("Exito en el registro");
+                swal({
+                    title: "Te has registrado correctamente.",
+                    text: "Inicia sesión ahora!",
+                    icon: "success",
+                    button: "Ir a inicio de sesión",
+                }).then( resp => {
+                    window.location.href = 'sign-in';
+                })
             })
             .catch(error => {
-                console.log(error);
+                swal({
+                    title: "Algo ha ido mal...",
+                    text: "Inténtalo de nuevo más tarde",
+                    icon: "error"
+                })
             })
 
     }
+
 
     //This function handles the changes on any datafield
     handleChange = (evento) => {
@@ -127,7 +159,7 @@ class SignUp extends Component {
                 break;
         }
 
-        this.checkPasswd();
+        //this.checkPasswd();
 
         this.setState({
             isError,
@@ -136,7 +168,7 @@ class SignUp extends Component {
     }
 
     //Check if password and confirm password are equal
-    checkPasswd() {
+    /*checkPasswd() {
         if (document.getElementById("passwd").value != ""){
             if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
                 document.getElementById('message').style.color = '#04981C';
@@ -149,7 +181,7 @@ class SignUp extends Component {
         else{
             document.getElementById('message').innerHTML = '';
         }
-    }
+    }*/
    
     render() {
         const { isError } = this.state;

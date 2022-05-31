@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
+import Swal from "sweetalert2";
 import "../css/App.css";
 
 import goToPDF from "../bootstrap-icons/file-earmark-pdf.svg"
 import goBackBtn from "../bootstrap-icons/arrow-left.svg"
+import SelectInput from "@material-ui/core/Select/SelectInput";
 
 const urlEPUB = "https://db-itreader-unizar.herokuapp.com/itreaderApp/LibrosUser/"
 const leerLibro = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
@@ -32,6 +34,12 @@ function HomeScreen (props) {
       };
     }, []);
     
+    function sleep(ms) {
+      return new Promise(
+        resolve => setTimeout(resolve, ms)
+      );
+    }
+
     const handleDeleteBook = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
       console.log(nombreUser)
@@ -41,8 +49,26 @@ function HomeScreen (props) {
       else{
         console.log(book.nombre)
         console.log(nombreUser)
-        axios.put(urlDelBook + nombreUser + "/", {nomLibro: book.nombre})
-        window.location.href = '/library-epub';
+        Swal.fire({
+          title: '¿Deseas borrar el libro?',
+          text: "Puedes volver a añadirlo en cualquier momento a tu biblioteca.",
+          icon: 'warning',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, ¡bórralo!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios.put(urlDelBook + nombreUser + "/", {nomLibro: book.nombre})
+            Swal.fire(
+              '¡Borrado!',
+              'El libro ha sido eliminado de tu biblioteca.',
+              'success'
+              )
+              window.location.href = '/library-epub';
+            }
+        })
       }
     }
 

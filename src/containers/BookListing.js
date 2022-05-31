@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactPaginate from 'react-paginate';
-import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
@@ -29,14 +29,27 @@ function HomeScreen (props) {
   const handleAdd2Lib = (book) => {
     const nombreUser = localStorage.getItem('nomUsuario')
     console.log(nombreUser)
-    if(localStorage.length == 0){
+    if(localStorage.length === 0){
       window.location.href = '/sign-in';
     }
     else{
       console.log(book.nombre)
       console.log(nombreUser)
       axios.put(urlAddBook + nombreUser + "/", {nomLibro: book.nombre}) 
-      window.location.href = '/library-epub';
+      Swal.fire({
+        title: '¡Añadido!',
+        text: "Puedes leer el libro en cualquier momento accediendo a tu biblioteca.",
+        icon: 'success',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Llévame a mi biblioteca!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/library-epub';
+        }
+      })
     }
   }
 

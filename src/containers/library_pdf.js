@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import "../css/App.css";
+import Swal from "sweetalert2";
+
 import uploadPDF from "../bootstrap-icons/file-earmark-arrow-up.svg"
 import goToBooks from "../bootstrap-icons/book.svg"
 import pdfIcon from "../images/pdf_icon.png"
@@ -43,8 +45,26 @@ function HomeScreen (props) {
       else{
         console.log(book.nombre)
         console.log(nombreUser)
-        axios.put(urlDelDoc + nombreUser + "/", {nomLibro: book.nombre})
-        window.location.href = '/library-pdf';
+        Swal.fire({
+          title: '¿Deseas borrar el documento?',
+          text: "Puedes volver a subirlo en cualquier momento a tu biblioteca.",
+          icon: 'warning',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, ¡bórralo!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios.put(urlDelDoc + nombreUser + "/", {nomLibro: book.nombre})
+            Swal.fire(
+              '¡Borrado!',
+              'El documento ha sido eliminado de tu biblioteca.',
+              'success'
+              )
+              window.location.href = '/library-pdf';
+            }
+        }) 
       }
     }
 

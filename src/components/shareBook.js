@@ -36,17 +36,26 @@ class SignIn extends Component {
     
     share = async() => {
         console.log(this.state.email)
-        await axios.get(baseUrl + userName + '/' + bookName + '/' + this.state.email + "/")
-        .catch( () => {
-            swal({
-                title: "Correo enviado correctamente!",
-                text: "Vuelve a iniciar sesión con tus credenciales",
-                icon: "success",
-                button: "Ir al catálogo",
-            }).then( () => {
-                    //window.location.href = '/catalogue';
+        if(this.state.email !== ""){
+            await axios.get(baseUrl + userName + '/' + bookName + '/' + this.state.email + "/")
+            .catch( () => {
+                swal({
+                    title: "Correo enviado correctamente!",
+                    text: "Vuelve a iniciar sesión con tus credenciales",
+                    icon: "success",
+                    button: "Ir al catálogo",
+                }).then( () => {
+                        window.location.href = '/catalogue';
+                })
             })
-        })
+        }
+        else{
+            swal({
+                title: "Error al compartir",
+                text: "Debes introducir un correo electrónico válido",
+                icon: "error",
+            })
+        }
     }
 
     render() {

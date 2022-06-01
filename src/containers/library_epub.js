@@ -7,21 +7,24 @@ import "../css/App.css";
 
 import goToPDF from "../bootstrap-icons/file-earmark-pdf.svg"
 import goBackBtn from "../bootstrap-icons/arrow-left.svg"
-import SelectInput from "@material-ui/core/Select/SelectInput";
+import deleteIcon from "../bootstrap-icons/trash.svg";
+import watchIcon from "../bootstrap-icons/eye.svg";
+import shareIcon from "../bootstrap-icons/share.svg";
 
+const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/";
 const urlEPUB = "https://db-itreader-unizar.herokuapp.com/itreaderApp/LibrosUser/"
-const leerLibro = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
 const urlDelBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibroUsuario/"
+const rateUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/valorarLibro/";
 
 function HomeScreen (props) {
 
   const [book, setBook] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [rating, setRating] = useState(0) // initial rating value
 
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
 
-  let history = useHistory();
   useEffect(() => {
     const fetchBooks = async () => {
         const nombreusuario = localStorage.getItem('nomUsuario')
@@ -33,12 +36,6 @@ function HomeScreen (props) {
         //
       };
     }, []);
-    
-    function sleep(ms) {
-      return new Promise(
-        resolve => setTimeout(resolve, ms)
-      );
-    }
 
     const handleDeleteBook = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
@@ -105,6 +102,16 @@ function HomeScreen (props) {
         window.location.href = '/share';
       }
     }    
+    
+    const handleRating = (rate) => {
+      const nombreLibro = localStorage.getItem('nomLibro');
+      setRating(rate);
+      console.log(rate);
+      const valoracion = parseInt(rate/20);
+      console.log("valoracion actual: ", valoracion);
+      axios.put(rateUrl + "libro19.epub/", valoracion);
+      // other logic
+    }
 
     const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
@@ -132,14 +139,10 @@ function HomeScreen (props) {
                         </div>
                       </div>
                     </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleDeleteBook(book)} className="btn btn-danger btn-lock btn-lg">Eliminar de la librería</button>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleLeerLibro(book)} className="btn btn-success btn-lock btn-lg">Leer</button>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleShare(book)} className="btn btn-warning btn-lock btn-lg">Compartir</button>
+                  <div class="btn-button" role="group">
+                    <button type="submit" className="small-btn" onClick={() => handleDeleteBook(book)}><img src={deleteIcon} width="30" height="30" ></img></button>
+                    <button type="submit" className="small-btn" onClick={() => handleLeerLibro(book)}><img src={watchIcon} width="30" height="30" ></img></button>
+                    <button type="submit" className="small-btn" onClick={() => handleShare(book)}><img src={shareIcon} width="30" height="30" ></img></button>
                   </div>
                 </div>
               </div>

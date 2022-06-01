@@ -74,6 +74,23 @@ html::-webkit-scrollbar-thumb{
     border:var(--border);
 }
 
+.small-btn{
+    margin-top: 1rem;
+    display:inline-block;
+    padding:.9rem 3rem;
+    border-radius: .5rem;
+    color:#fff;
+    border: 2px solid black;
+    background:var(--blue);
+    font-size: 1.7rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.small-btn:hover{
+    background:var(--dark-color);
+}
+
 .btn{
     margin-top: 1rem;
     display:inline-block;

@@ -33,6 +33,7 @@
     "react-redux": "^8.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.0",
+    "react-simple-star-rating": "^4.0.5",
     "reactstrap": "^9.0.2",
     "redux": "^4.2.0",
     "semantic-ui-css": "^2.4.1",

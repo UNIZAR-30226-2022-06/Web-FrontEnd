@@ -10,6 +10,10 @@ import goToBooks from "../bootstrap-icons/book.svg"
 import pdfIcon from "../images/pdf_icon.png"
 import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
+import deleteIcon from "../bootstrap-icons/trash.svg";
+import watchIcon from "../bootstrap-icons/eye.svg";
+import shareIcon from "../bootstrap-icons/share.svg";
+
 const urlPDF = "https://db-itreader-unizar.herokuapp.com/itreaderApp/DocumentosUser/"
 const leerPDF = "https://db-itreader-unizar.herokuapp.com/itreaderApp/leerLibro/"
 const urlDelDoc = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteDocUsuario/"
@@ -22,6 +26,7 @@ function HomeScreen (props) {
 
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
+
   
   useEffect(() => {
     const nombreusuario = localStorage.getItem('nomUsuario')
@@ -115,7 +120,6 @@ function HomeScreen (props) {
             return (
               <div className="contenido">
                 <div className="ui grid container" key={book.id}>
-                  <Link to={'/book/' + book.id}>
                     <div className="ui link cards">
                       <div className="card">
                         <div className="image">
@@ -129,7 +133,6 @@ function HomeScreen (props) {
                         </div>
                         <div className="content">
                           <div className="header">
-                            <Link to={'/book/' + book.id}></Link>
                           </div>
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.formato}</div>
@@ -137,15 +140,10 @@ function HomeScreen (props) {
                         </div>
                       </div>
                     </div>
-                  </Link>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleDeleteDoc(book)} className="btn btn-danger btn-lock btn-lg">Eliminar de la librería</button>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleLeerDoc(book)} className="btn btn-success btn-lock btn-lg">Leer</button>
-                  </div>
-                  <div class="d-grid gap-2">
-                    <button type="submit" onClick={() => handleShare(book)} className="btn btn-warning btn-lock btn-lg">Compartir</button>
+                  <div class="btn-button" role="group">
+                    <button type="submit" className="small-btn" onClick={() => handleDeleteDoc(book)}><img src={deleteIcon} width="30" height="30" ></img></button>
+                    <button type="submit" className="small-btn" onClick={() => handleLeerDoc(book)}><img src={watchIcon} width="30" height="30" ></img></button>
+                    <button type="submit" className="small-btn" onClick={() => handleShare(book)}><img src={shareIcon} width="30" height="30" ></img></button>
                   </div>
                 </div>
               </div>

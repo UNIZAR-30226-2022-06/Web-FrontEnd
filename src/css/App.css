@@ -265,3 +265,16 @@ grid-section {
   margin-top: 75px;
   width: 35rem;
 }
+
+.rate-grid {
+  width: 283px;
+  margin: auto;
+  background: #ffffff;
+  padding: 10px 15px 10px 15px;
+  border-radius: 5px;
+  border: 2px solid rgb(201, 201, 201);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: right;
+}

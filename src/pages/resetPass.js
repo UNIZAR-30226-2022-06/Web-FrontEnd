@@ -7,6 +7,7 @@ import "../css/profile.css";
 import "../css/App.css";
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/enviarCorreo/";
+const urlUsers = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios/"
 const cookies = new Cookies();
 
 class SignIn extends React.Component {
@@ -30,9 +31,25 @@ class SignIn extends React.Component {
     }
     
     handleSubmit = (event) => {
-        this.reset();
+        this.fetchUsers();
         event.preventDefault(); 
     }
+
+    fetchUsers = async () => {
+        const { data } = await axios.get(urlUsers)
+        for(let i = 0; i < data.length; i++){
+            if(data[i].correo !== this.state.email){
+                swal({
+                    title: "Error!",
+                    text: "No hay ninguna cuenta asociada a ese correo electrónico.",
+                    icon: "error"
+                })
+            }
+            else{
+                this.reset();
+            }
+        }
+    }; 
     
     reset = async() => {
         await axios.get(baseUrl + this.state.email + "/")

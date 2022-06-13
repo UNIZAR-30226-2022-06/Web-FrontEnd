@@ -85,10 +85,8 @@ class SignUp extends Component {
 
     fetchUsers = async () => {
         const { data } = await axios.get(urlUsers)
-        //console.log(data.length);
         for(let i = 0; i < data.length; i++){
             if(data[i].nomUsuario === this.state.nickName){
-                //console.log("Nombre de usuario ya existente");
                 swal({
                     title: "Error en el registro",
                     text: "Ya existe un usuario con ese nombre.",
@@ -96,16 +94,22 @@ class SignUp extends Component {
                 })
             }
             else if(data[i].correo === this.state.email){
-                //console.log("Correo asociado a una cuenta ya existente");
                 swal({
                     title: "Error en el registro",
                     text: "Correo electrónico asociado a una cuenta existente.",
                     icon: "error"
                 })
             }
-            else{
-                this.registrarse();
-            }
+        }
+        if(this.state.password !== this.state.cPassword){
+            swal({
+                title: "Error en el registro",
+                text: "Las contraseñas no coinciden.",
+                icon: "error"
+            })
+        }
+        else{
+            this.registrarse();
         }
     }; 
     
@@ -119,10 +123,9 @@ class SignUp extends Component {
                     icon: "success",
                     button: "Ir a inicio de sesión",
                 }).then( resp => {
-                    window.location.href = 'sign-in';
+                    //window.location.href = 'sign-in';
                 })
             })
-
     }
 
 
@@ -143,7 +146,7 @@ class SignUp extends Component {
             case "password":
                 isError.password = regExpPass.test(value)
                     ? ""
-                    : "La contraseña debe tener mínimo 8 caracteres y al menos una mayúscula, una minúscula y un número.";
+                    : "La contraseña debe tener mínimo 8 caracteres y al menos una mayúscula, una minúscula, un número y un caracter no alfanumérico.";
                 break;
             default:
                 break;
@@ -157,8 +160,7 @@ class SignUp extends Component {
         });
     }
 
-    //Check if password and confirm password are equal
-    /*checkPasswd() {
+    checkPasswd() {
         if (document.getElementById("passwd").value != ""){
             if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
                 document.getElementById('message').style.color = '#04981C';
@@ -171,7 +173,7 @@ class SignUp extends Component {
         else{
             document.getElementById('message').innerHTML = '';
         }
-    }*/
+    }
    
     render() {
         const { isError } = this.state;
@@ -215,7 +217,7 @@ class SignUp extends Component {
                             <p></p>
                             <div>
                                 <label>Confirmar contraseña</label>
-                                <input type="password" id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} />
+                                <input type="password" id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd}/>
                                 <span id='message' ></span>
                                 {isError.cPassword.length > 0 && (
                                     <span className="invalid-feedback">{isError.cPassword}</span>

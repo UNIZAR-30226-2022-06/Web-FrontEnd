@@ -83,12 +83,16 @@ function HomeScreen (props) {
         console.log(libro)
         console.log(nombreUser)
         axios.get(leerPDF + book.nombre + ".pdf" + "/1")
-        //window.location.href = '/library-pdf';
         .then (response=>{
           console.log(response.data.libro);
           console.log(response.data.pagina);
           console.log(response.data.contenido);
-          window.location.href = response.data.contenido;
+          //window.location.href = response.data.contenido;
+          window.open(
+            response.data.contenido,
+            '_blank' // <- This is what makes it open in a new window.
+          );
+          //window.location.href = '/pdf-viewer';
         })
         .catch(error => {
             alert("Libro imposible de leer.")

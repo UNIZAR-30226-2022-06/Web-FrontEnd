@@ -207,6 +207,32 @@ grid-section {
   text-align: right;
 }
 
+.show-btn {
+  width: 30px;
+  margin: auto;
+  background: #ffffff;
+  padding: 4px 15px 3.5px 15px;
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: right;
+}
+
+.show-btn2 {
+  width: 30px;
+  margin: auto;
+  background: #ffffff;
+  padding: 4px 15px 3.5px 15px;
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: right;
+}
+
 .back-btn {
   width: 35px;
   margin: auto;

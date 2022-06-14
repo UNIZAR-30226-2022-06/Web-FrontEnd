@@ -48,20 +48,23 @@ function HomeScreen (props) {
 
                             <div className="form-group">
                                 <label>Nombre de usuario</label>
-                                <label disabled="true" type="text" className="form-control" id="nickName">{user.nomUsuario}</label>
+                                <input type="text" className="form-control" id="nickName" placeholder={user.nomUsuario} disabled />
                             </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Nombre</label>
-                                <label disabled="true" type="text" className="form-control" id="nickName">{user.nombre}</label>                            </div>
+                                <input type="text" className="form-control" id="nickName" placeholder={user.nombre} disabled/>                            
+                            </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Correo electrónico</label>
-                                <label disabled="true" type="text" className="form-control" id="nickName">{user.correo}</label>                            </div>
+                                <input type="text" className="form-control" id="nickName" placeholder={user.correo} disabled />                            
+                            </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <label disabled="true" type="password" className="form-control" id="nickName">{user.password}</label>                            </div>
+                                <input type="password" className="form-control" id="nickName" placeholder={user.password} disabled />                            
+                            </div>
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">

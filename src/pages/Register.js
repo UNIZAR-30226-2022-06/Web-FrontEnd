@@ -5,6 +5,10 @@ import { withRouter } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
 
+import ShowIcon from '@material-ui/icons/Visibility'
+import ShowOffIcon from '@material-ui/icons/VisibilityOff'
+import { ButtonUnstyled } from "@mui/base";
+
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/"
 const urlUsers = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Usuarios/"
 
@@ -52,6 +56,8 @@ class SignUp extends Component {
             cPassword: "", 
             nickName: "",
             esAdmin: false,
+            showPassword: false,
+            showCPassword: false,
             isError: {
                 name: '',
                 email: '',
@@ -161,7 +167,7 @@ class SignUp extends Component {
     }
 
     checkPasswd() {
-        if (document.getElementById("passwd").value != ""){
+        if (document.getElementById("passwd").value !== ""){
             if ((document.getElementById("passwd").value === document.getElementById("cpasswd").value) && document.getElementById("passwd").value.length > 0) {
                 document.getElementById('message').style.color = '#04981C';
                 document.getElementById('message').innerHTML = 'Contraseña correcta.';
@@ -209,19 +215,29 @@ class SignUp extends Component {
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" id="passwd" name="password" className={isError.password.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Introduce tu contraseña" onChange={this.handleChange} />
-                                {isError.password.length > 0 && (
-                                    <span className="invalid-feedback">{isError.password}</span>
-                                )}
+                                <div className="input-group mb-3">
+                                    <input type={this.state.showPassword ? "text" : "password"} id="passwd" name="password" className={isError.password.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Introduce tu contraseña" onChange={this.handleChange} />
+                                    <ButtonUnstyled className="show-btn2" onClick={() => this.setState({showPassword: !this.state.showPassword})}>
+                                        {this.state.showPassword ? <ShowIcon/> : <ShowOffIcon/>}
+                                    </ButtonUnstyled>
+                                    {isError.password.length > 0 && (
+                                        <span className="invalid-feedback">{isError.password}</span>
+                                    )}
+                                </div>
                             </div>
                             <p></p>
-                            <div>
+                            <div className="form-group">
                                 <label>Confirmar contraseña</label>
-                                <input type="password" id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd}/>
+                                <div className="input-group mb-3">
+                                    <input type={this.state.showCPassword ? "text" : "password"} id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd}/>
+                                    <ButtonUnstyled style={{color: 'black'}} className="show-btn2" onClick={() => this.setState({showCPassword: !this.state.showCPassword})}>
+                                        {this.state.showCPassword ? <ShowIcon/> : <ShowOffIcon/>}
+                                    </ButtonUnstyled>
+                                    {isError.cPassword.length > 0 && (
+                                        <span className="invalid-feedback">{isError.cPassword}</span>
+                                    )}
+                                </div>
                                 <span id='message' ></span>
-                                {isError.cPassword.length > 0 && (
-                                    <span className="invalid-feedback">{isError.cPassword}</span>
-                                )}
                             </div>
                             <p></p>
                             <br></br>

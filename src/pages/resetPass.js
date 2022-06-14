@@ -36,12 +36,13 @@ class SignIn extends React.Component {
     }
 
     fetchUsers = async () => {
+        console.log(this.state.email)
         const { data } = await axios.get(urlUsers)
         for(let i = 0; i < data.length; i++){
             if(data[i].correo !== this.state.email){
                 swal({
                     title: "Error!",
-                    text: "No hay ninguna cuenta asociada a ese correo electrónico.",
+                    text: "No existe ninguna cuenta asociada a ese correo electrónico.",
                     icon: "error"
                 })
             }

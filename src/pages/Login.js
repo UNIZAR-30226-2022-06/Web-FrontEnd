@@ -4,6 +4,10 @@ import swal from 'sweetalert';
 import { withRouter } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
+import { ButtonUnstyled } from "@mui/base";
+
+import ShowIcon from '@material-ui/icons/Visibility'
+import ShowOffIcon from '@material-ui/icons/VisibilityOff'
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Login/";
 
@@ -18,6 +22,7 @@ class SignIn extends Component {
         this.state = {
             username: "",
             password: "",
+            showPassword: false,
         }
     }
     
@@ -45,11 +50,6 @@ class SignIn extends Component {
             console.log(response.data.password);
             console.log(response.data.esAdmin);
             if(response.data.nomUsuario == this.state.username && response.data.password == this.state.password){
-                swal({
-                    title: "Inicio de sesión correcto",
-                    text: "Comienza a leer!",
-                    icon: "success"
-                })
                 localStorage.setItem('nomUsuario',this.state.username)
                 localStorage.setItem('password',this.state.password)
                 localStorage.setItem('esAdmin',response.data.esAdmin)
@@ -68,7 +68,6 @@ class SignIn extends Component {
                 })
             }
         }).catch(error => {
-            alert("El usuario no ha podido ser logueado")
         })
     }
 
@@ -91,7 +90,12 @@ class SignIn extends Component {
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" className="form-control" id="password" name="password" placeholder="Introduce tu contraseña" onChange={this.handleChange}/>
+                                <div className="input-group mb-3">
+                                    <input type={this.state.showPassword ? "text" : "password"} className="form-control" id="password" name="password" placeholder="Introduce tu contraseña" onChange={this.handleChange}/>
+                                    <ButtonUnstyled className="show-btn" onClick={() => this.setState({showPassword: !this.state.showPassword})}>
+                                        {this.state.showPassword ? <ShowIcon/> : <ShowOffIcon/>}
+                                    </ButtonUnstyled>
+                                </div>
                             </div>
                             <p></p>
                             <br></br>

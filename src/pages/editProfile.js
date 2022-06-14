@@ -64,7 +64,7 @@ class EditProfile extends Component {
                 text: "Vuelve a tu perfil",
                 icon: "success",
             }).then( resp => {
-                window.location.href = '/profile';
+                //window.location.href = '/profile';
             })
         }).catch( err =>{
             swal({
@@ -76,13 +76,18 @@ class EditProfile extends Component {
     }
 
     updateUser = async () => {
-        await axios.put(baseUrlUPT + userName + "/", { nombre: this.state.nombre, nomUsuario: userName, password: this.state.password, correo: this.state.email })
+        console.log("llego al put de axios");
+        await axios.put(baseUrlUPT + userName + "/", { nombre: this.state.nombre, nomUsuario: this.state.nickName, password: this.state.password, correo: this.state.email })
             .then( () => {
                 console.log("Exito al actualizar los datos");
             })
             .catch(error => {
                 console.log(error);
             })
+        localStorage.setItem('nomUsuario', this.state.nickName);
+        var usuario = localStorage.getItem('nomUsuario');
+        console.log(usuario);
+        console.log("he hecho el put de axios");
     }
 
     //This function handles the changes on any datafield
@@ -145,6 +150,11 @@ class EditProfile extends Component {
                             <div className="form-group">
                                 <label>Nombre</label>
                                 <input type="text" className="form-control" id="nombre" name="nombre" placeholder="Introduce tu nombre y apellido" onChange={this.handleChange} />
+                            </div>
+                            <p></p>
+                            <div className="form-group">
+                                <label>Nombre de usuario</label>
+                                <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Introduce tu nombre de usuario" onChange={this.handleChange} />
                             </div>
                             <p></p>
                             <div className="form-group">

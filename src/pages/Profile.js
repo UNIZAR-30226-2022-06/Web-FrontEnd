@@ -47,23 +47,23 @@ function HomeScreen (props) {
                             <h2>Perfil</h2>
 
                             <div className="form-group">
-                                <label>Nombre de usuario</label>
-                                <input type="text" className="form-control" id="nickName" placeholder={user.nomUsuario} disabled />
+                                <label>Nombre</label>
+                                <input disabled type="text" className="form-control" id="nickName" placeholder={user.nombre} />
                             </div>
                             <p></p>
                             <div className="form-group">
-                                <label>Nombre</label>
-                                <input type="text" className="form-control" id="nickName" placeholder={user.nombre} disabled/>                            
+                                <label>Nombre de usuario</label>
+                                <input disabled type="text" className="form-control" id="nickName" placeholder={user.nomUsuario} />                            
                             </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Correo electrónico</label>
-                                <input type="text" className="form-control" id="nickName" placeholder={user.correo} disabled />                            
+                                <input disabled type="text" className="form-control" id="nickName" placeholder={user.correo} />                            
                             </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" className="form-control" id="nickName" placeholder={user.password} disabled />                            
+                                <input disabled type="password" className="form-control" id="nickName" placeholder={user.password} />                            
                             </div>
                             <p></p>
                             <br></br>

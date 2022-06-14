@@ -48,7 +48,7 @@ function HomeScreen (props) {
 
                             <div className="form-group">
                                 <label>Nombre</label>
-                                <input disabled type="text" className="form-control" id="nickName" placeholder={user.nombre} />
+                                <input disabled type="text" className="form-control" id="nombre" placeholder={user.nombre} />
                             </div>
                             <p></p>
                             <div className="form-group">
@@ -58,12 +58,12 @@ function HomeScreen (props) {
                             <p></p>
                             <div className="form-group">
                                 <label>Correo electrónico</label>
-                                <input disabled type="text" className="form-control" id="nickName" placeholder={user.correo} />                            
+                                <input disabled type="text" className="form-control" id="email" placeholder={user.correo} />                            
                             </div>
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input disabled type="password" className="form-control" id="nickName" placeholder={user.password} />                            
+                                <input disabled type="password" className="form-control" id="password" placeholder={user.password} />                            
                             </div>
                             <p></p>
                             <br></br>

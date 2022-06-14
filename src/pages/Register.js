@@ -129,7 +129,7 @@ class SignUp extends Component {
                     icon: "success",
                     button: "Ir a inicio de sesión",
                 }).then( resp => {
-                    //window.location.href = 'sign-in';
+                    window.location.href = 'sign-in';
                 })
             })
     }
@@ -158,7 +158,7 @@ class SignUp extends Component {
                 break;
         }
 
-        //this.checkPasswd();
+        this.checkPasswd();
 
         this.setState({
             isError,

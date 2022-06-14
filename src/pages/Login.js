@@ -68,6 +68,11 @@ class SignIn extends Component {
                 })
             }
         }).catch(error => {
+            swal({
+                title: "Usuario o contraseña incorrecto!",
+                text: "Inténtalo de nuevo",
+                icon: "error"
+            })
         })
     }
 

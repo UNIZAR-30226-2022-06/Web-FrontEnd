@@ -5,11 +5,47 @@ import swal from 'sweetalert';
 import Swal from "sweetalert2";
 import '../css/profile.css';
 
+import ShowIcon from '@material-ui/icons/Visibility'
+import ShowOffIcon from '@material-ui/icons/VisibilityOff'
+import { ButtonUnstyled } from "@mui/base";
+
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp"
 const baseUrlUPT = "https://db-itreader-unizar.herokuapp.com/itreaderApp/updateUsuario/"
 const baseUrlDEL = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteUsuario/"
 
 const userName = localStorage.getItem('nomUsuario')
+
+// Expresión regular para validar formato de correo electrónico
+const regExpMail = RegExp(
+    /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
+)
+
+// Expresión regular para validar seguridad de la contraseña
+const regExpPass = RegExp(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/
+)
+
+const formValid = ({ isError, ...rest }) => {
+    let isValid = false;
+
+    Object.values(isError).forEach(val => {
+        if (val.length > 0) {
+            isValid = false
+        } else {
+            isValid = true
+        }
+    });
+
+    Object.values(rest).forEach(val => {
+        if (val === null) {
+            isValid = false
+        } else {
+            isValid = true
+        }
+    });
+
+    return isValid;
+}
 
 class EditProfile extends Component {
 
@@ -23,6 +59,14 @@ class EditProfile extends Component {
             cPassword: "", 
             nickName: "",
             esAdmin: false,
+            showPassword: false,
+            showCPassword: false,
+            isError: {
+                name: '',
+                email: '',
+                password: '',
+                cPassword: ''
+            }
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -95,7 +139,26 @@ class EditProfile extends Component {
         //Creamos un par con el nombre y el valor del target que este llamando a la funcion
         const { name, value } = evento.target;
         //Guardamos en el estado con el nombre correspondiente el valor correspondiente
+        
+        let isError = { ...this.state.isError };
+        
+        switch (name) {
+            case "email":
+                isError.email = regExpMail.test(value)
+                    ? ""
+                    : "Dirección de correo electrónica no válida.";
+                break;
+            case "password":
+                isError.password = regExpPass.test(value)
+                    ? ""
+                    : "La contraseña debe tener mínimo 8 caracteres y al menos una mayúscula, una minúscula, un número y un caracter no alfanumérico.";
+                break;
+            default:
+                break;
+        }
+        
         this.setState({
+            isError,
             [name]: value
         });
     }
@@ -113,7 +176,8 @@ class EditProfile extends Component {
             confirmButtonText: 'Sí, ¡elimínala!'
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.put(baseUrlDEL + userName + "/")
+                axios.delete(baseUrlDEL + userName + "/")
+                console.log("he hecho el delete del usuario");
                 localStorage.clear();
                 Swal.fire(
                 '¡Borrado!',
@@ -136,6 +200,8 @@ class EditProfile extends Component {
     }
 
     render() {
+        const { isError } = this.state;
+
         return (
             <div className="auth-wrapper">
                 <div className="auth-inner"> 
@@ -164,18 +230,34 @@ class EditProfile extends Component {
                             <p></p>
                             <div className="form-group">
                                 <label>Contraseña</label>
-                                <input type="password" id="passwd" name="password" className="form-control" placeholder="Introduce tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <div className="input-group mb-3">
+                                    <input type={this.state.showPassword ? "text" : "password"} id="passwd" name="password" className={isError.password.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Introduce tu contraseña" onChange={this.handleChange} />
+                                    <ButtonUnstyled className="show-btn2" onClick={() => this.setState({showPassword: !this.state.showPassword})}>
+                                        {this.state.showPassword ? <ShowIcon/> : <ShowOffIcon/>}
+                                    </ButtonUnstyled>
+                                    {isError.password.length > 0 && (
+                                        <span className="invalid-feedback">{isError.password}</span>
+                                    )}
+                                </div>
                             </div>
                             <p></p>
-                            <div>
+                            <div className="form-group">
                                 <label>Confirmar contraseña</label>
-                                <input type="password" id="cpasswd" name="cPassword" className="form-control" placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd} />
+                                <div className="input-group mb-3">
+                                    <input type={this.state.showCPassword ? "text" : "password"} id="cpasswd" name="cPassword" className={isError.cPassword.length > 0 ? "is-invalid form-control" : "form-control"} placeholder="Confirma tu contraseña" onChange={this.handleChange} onKeyUp={this.checkPasswd}/>
+                                    <ButtonUnstyled style={{color: 'black'}} className="show-btn2" onClick={() => this.setState({showCPassword: !this.state.showCPassword})}>
+                                        {this.state.showCPassword ? <ShowIcon/> : <ShowOffIcon/>}
+                                    </ButtonUnstyled>
+                                    {isError.cPassword.length > 0 && (
+                                        <span className="invalid-feedback">{isError.cPassword}</span>
+                                    )}
+                                </div>
                                 <span id='message' ></span>
                             </div>
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">
-                                <button><a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a></button>
+                                <a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
                             </div>
                             <h2></h2>
                             <div class="d-grid gap-2">

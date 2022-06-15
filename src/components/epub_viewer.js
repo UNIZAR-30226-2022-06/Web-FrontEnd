@@ -403,7 +403,7 @@ class Epub extends Component {
                 element.removeChild(element.childNodes[0])
                 for(var i = 0; i < texto.length; i++){
                         //Tiene que ser con doble igual, no triple
-                        if(texto[i] === palabra){     
+                        if(texto[i].toLowerCase() === palabra.toLowerCase()){     
                             textNode = document.createTextNode(texto2);
                             node2 = document.createElement("mark");
                             textNode2 = document.createTextNode(texto[i])

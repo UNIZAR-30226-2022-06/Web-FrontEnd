@@ -283,7 +283,11 @@ class Epub extends Component {
         var pagina = document.getElementById("num").value;
 
         axios.get(baseUrl + '/leerLibro/' + libroName + '/' + pagina).then(res=>{
-            textopag = res.data;
+            if(res.data.contenido === ''){
+                textopag = textopag2;
+            }else{
+                textopag = res.data;
+            }
         })
         
         var element = document.getElementById("contenidoLibro");
@@ -522,7 +526,7 @@ class Epub extends Component {
                         <p></p>
                         <div class="inline-block">
                             <div class="inline-block-child">
-                                <input className="form-input" type="text" id="mark" size="20" placeholder="Ir a la página..."></input>
+                                <input className="form-input" type="text" id="num" size="20" placeholder="Ir a la página..."></input>
                             </div>
                             <div className="inline-block-child">    
                                 <button type="button" class="basic-btn2" onClick={this.changePag}>Ir</button>

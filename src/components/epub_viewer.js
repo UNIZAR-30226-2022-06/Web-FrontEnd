@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import { Link, withRouter } from "react-router-dom";
+import Swal from "sweetalert2";
+
 import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 var pag = 0;
@@ -469,6 +471,11 @@ class Epub extends Component {
             if(rate.valoracion >= 0 && rate.valoracion <= 5){
                 axios.put(baseUrl + "/valorarLibro/" + libroName + "/", rate)
             }
+            Swal.fire(
+                '¡Enviado!',
+                'El libro ha sido valorado con éxito.',
+                'success'
+            )
         }
     }
 
@@ -532,7 +539,7 @@ class Epub extends Component {
                                 <button type="button" class="basic-btn2" onClick={this.changePag}>Ir</button>
                             </div>
                             <div class="inline-block-child">
-                                <input className="form-input" type="text" id="mark" size="20" placeholder="Introducir valoración (mín 1, máx 5)"></input>
+                                <input className="form-input" type="text" id="myRate" size="20" placeholder="Introducir valoración (mín 1, máx 5)"></input>
                             </div>
                             <div className="inline-block-child">    
                                 <button type="button" class="basic-btn-rating" onClick={this.sendRate}>Enviar</button>

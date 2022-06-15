@@ -108,7 +108,7 @@ class EditProfile extends Component {
                 text: "Vuelve a tu perfil",
                 icon: "success",
             }).then( resp => {
-                //window.location.href = '/profile';
+                window.location.href = '/profile';
             })
         }).catch( err =>{
             swal({
@@ -257,7 +257,7 @@ class EditProfile extends Component {
                             <p></p>
                             <br></br>
                             <div class="d-grid gap-2">
-                                <a type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
+                                <a onClick={this.handleSubmit} type="submit" className="success-btn btn-success btn-block" href={"/profile"}>Guardar cambios</a>
                             </div>
                             <h2></h2>
                             <div class="d-grid gap-2">

@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "../css/App.css";
+import Rating from '@mui/material/Rating';
 
 import bookAdd from "../bootstrap-icons/plus-circle.svg"
 
@@ -17,6 +18,8 @@ function HomeScreen (props) {
 
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
+
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -59,10 +62,33 @@ function HomeScreen (props) {
           }
       })      
     }
+
+  }
+
+  const handleAdd2Catalalogue = () => {
+    const nombreUser = localStorage.getItem('nomUsuario')
+    console.log(nombreUser)
+    if(localStorage.length == 0){
+      window.location.href = '/sign-in';
+    }
+    else{
+        window.location.href = '/book-add';     
+    }   
   }
 
   const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
+          .filter((value) => { 
+            if(filter === ""){
+              return value;
+            } else if (
+              value.nombre.toLowerCase().includes(filter.toLocaleLowerCase()) ||
+              value.autor.toLowerCase().includes(filter.toLocaleLowerCase()) ||
+              value.editorial.toLowerCase().includes(filter.toLocaleLowerCase())
+            ) {
+              return value;
+            }
+          })
           .map((book) => {
             return (
               <div className="contenido">
@@ -84,6 +110,7 @@ function HomeScreen (props) {
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.autor}</div>
                           <div className="meta edit">{book.editorial}</div>
+                          <Rating name="half-rating-read" defaultValue={book.valoracion} size="large" precision={0.25} readOnly />
                         </div>
                       </div>
                     </div>
@@ -103,7 +130,15 @@ function HomeScreen (props) {
   return (
     <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
-      <h5><Link className="pdf-btn" to={"/book-add"}><img src={bookAdd} width="30" height="30"></img>Añadir libro al catálogo</Link></h5>
+      <h5><Link onClick={() => handleAdd2Catalalogue()} className="pdf-btn"><img src={bookAdd} width="30" height="30"></img>Añadir libro al catálogo</Link></h5>
+      <p></p>
+      <input 
+        type="search" 
+        className="search-box" 
+        placeholder="Busca un libro aquí..." 
+        value={filter} 
+        onChange={(e) => setFilter(e.target.value)}
+      />
       <grid-section>
         {displayBooks}
       </grid-section>

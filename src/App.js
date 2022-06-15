@@ -3,7 +3,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './css/style.css';
 import "./css/App.css";
-//import "./css/grid.css";
 
 import logoItReader from './images/itReader_logo_small.png';
 import Login from "./pages/Login";
@@ -45,14 +44,8 @@ function App() {
 
   return (<Router>
     <header className="header">
-        <div className="header-1">
-          <Link to={"/catalogue"} className="logo"> <img src={logoItReader} width="20" height="20"></img> itReader </Link>
-
-          <form action="" class="search-form">
-            <input type="search" name="" placeholder="search here..." id="search-box"></input>
-            <label for="search-box" class="fas fa-search"></label>
-          </form>
-
+      <div className="header-1">
+        <Link to={"/catalogue"} className="logo"> <img src={logoItReader} width="20" height="20"></img> itReader </Link>
         <div class="icons">
             <a onClick={handleLibrary} class="fas fa-book"></a>
             <a onClick={handleProfile} class="fas fa-user"></a>

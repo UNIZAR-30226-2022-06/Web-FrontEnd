@@ -3,6 +3,8 @@ import axios from "axios";
 import ReactPaginate from 'react-paginate';
 import Swal from "sweetalert2";
 import "../css/App.css";
+import "../css/style.css";
+import Rating from '@mui/material/Rating';
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Libros/";
 const urlAddBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/addDocsUsuario/";
@@ -15,15 +17,14 @@ function HomeScreen (props) {
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
 
+  const [filter, setFilter] = useState('');
+
   useEffect(() => {
     const fetchBooks = async () => {
         const { data } = await axios.get(baseUrl)
         setBook(data);
       }; 
       fetchBooks();
-      return () => {
-        //
-      };
   }, []);
 
   const handleAdd2Lib = (book) => {
@@ -53,7 +54,20 @@ function HomeScreen (props) {
     }
   }
 
+  console.log(filter)
+
   const displayBooks = book
+          .filter((value) => { 
+            if(filter === ""){
+              return value;
+            } else if (
+              value.nombre.toLowerCase().includes(filter.toLocaleLowerCase()) ||
+              value.autor.toLowerCase().includes(filter.toLocaleLowerCase()) ||
+              value.editorial.toLowerCase().includes(filter.toLocaleLowerCase())
+            ) {
+              return value;
+            }
+          })
           .slice(pagesVisited, pagesVisited + booksPerPage)
           .map((book) => {
             return (
@@ -76,6 +90,7 @@ function HomeScreen (props) {
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.autor}</div>
                           <div className="meta edit">{book.editorial}</div>
+                          <Rating name="half-rating-read" defaultValue={book.valoracion} size="large" precision={0.25} readOnly />({book.numValoraciones})
                         </div>
                       </div>
                     </div>
@@ -86,15 +101,26 @@ function HomeScreen (props) {
               </div>
             );
             });
+            
   const pageCount = Math.ceil(book.length / booksPerPage);
 
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-
+  
   return (
     <div className="ui grid container">
       <h1>CATÁLOGO DE LIBROS</h1>
+      <p></p>
+      <div>
+        <input 
+          type="search" 
+          className="search-box" 
+          placeholder="Busca un libro aquí..." 
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value)}
+        />
+      </div>
       <grid-section>
         {displayBooks}
       </grid-section>

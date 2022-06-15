@@ -159,12 +159,6 @@ class Epub extends Component {
                         libro = res.data[i];
                     }                                                
                 }
-
-                var element = document.getElementById("rate");
-                node = document.createElement("p");
-                textNode = document.createTextNode(libro.valoracion + "/5  El libro tiene " + libro.numValoraciones + " valoraciones");
-                node.appendChild(textNode);
-                element.appendChild(node);
                 
                 axios.get(baseUrl + '/Usuarios/').then(res =>{
                     var usuario;
@@ -470,22 +464,6 @@ class Epub extends Component {
         }else{
             if(rate.valoracion >= 0 && rate.valoracion <= 5){
                 axios.put(baseUrl + "/valorarLibro/" + libroName + "/", rate)
-                
-                axios.get(baseUrl + '/Libros/').then(res =>{
-                    var libro;
-                    for(var i = 0; i < res.data.length; i++){
-                        if(libroName === res.data[i].nombre){        
-                            libro = res.data[i];
-                            console.log(libro)
-                        }                                                
-                    }
-                    console.log("mi valoracion actual es: ", rate)
-                    var element = document.getElementById("rate");
-                    node = document.createElement("p");
-                    textNode = document.createTextNode(libro.valoracion + "/5  El libro tiene " + libro.numValoraciones + " valoraciones");
-                    node.appendChild(textNode);
-                    element.replaceChild(node, element.childNodes[0]);
-                })
             }
         }
     }
@@ -496,21 +474,38 @@ class Epub extends Component {
             <div>
                 <Link className="back-btn-book" to={"/library-epub"}><img src={goBackBtn}></img></Link>
                 <br></br>
-            <div className="auth-wrapper">
+            <div className="book-grid">
             <div onSubmit={this.handleSubmit}>
-                <button onClick={this.changeSize}><h4>Size</h4></button><labael> </labael>
-                <button type="button" onClick={this.changeFont}><h4>Font</h4></button><labael> </labael>
-                <button type="button" onClick={this.changeColor}><h4>Background Color</h4></button><labael> </labael>
-                <label>Word:</label>
-                <input type="text" id="word" size="10"></input>
-                <button type="button" onClick={this.searchWord}><h4>Search</h4></button><br/>
-
-                <input type="text" id="mark"></input>
-                <button type="button" onClick={this.saveMark}><h4>Save Mark</h4></button><labael> </labael>
-                <button type="button" onClick={this.removeMark}><h4>Delete Mark</h4></button><br/><labael> </labael>
-
-                <select name="Marks" id="marks"></select>
-                <button onClick={this.jumpMark}><h4>Jump Mark</h4></button>
+                <div class="btn-group btn-group-lg center-buttons" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" onClick={this.changeSize}>Tamaño</button>
+                    <button type="button" class="btn btn-outline-primary" onClick={this.changeFont}>Fuente</button>
+                    <button type="button" class="btn btn-outline-primary" onClick={this.changeColor}>Color de fondo</button>
+                </div>
+                <p></p>
+                <div className="inline-block">
+                    <div className="inline-block-child">
+                        <input className="form-input" type="text" id="word" size="20" placeholder="Busca una palabra..."></input>
+                    </div>
+                    <div className="inline-block-child">    
+                        <button type="button" className="basic-btn2" onClick={this.searchWord}>Buscar</button>
+                    </div>
+                    <div class="inline-block-child">
+                        <input className="form-input" type="text" id="mark" size="20" placeholder="Marca"></input>
+                    </div>
+                    <div className="inline-block-child">    
+                        <button type="button" class="basic-btn" onClick={this.saveMark}>Guardar</button>
+                        <button type="button" class="basic-btn-del" onClick={this.removeMark}>Borrar</button>
+                    </div>
+                </div>
+                <p></p>
+                <div className="inline-block">
+                    <div class="inline-block-child">
+                        <select class="form-input" name="Marks" id="marks"></select>
+                    </div>
+                    <div className="inline-block-child">
+                        <button type="button" className="basic-btn-mark" onClick={this.jumpMark}>Ir a la marca</button>
+                    </div>
+                </div>
                 
                 <br/><br/>
                 <div>
@@ -519,17 +514,26 @@ class Epub extends Component {
                         <div id="contenidoLibro">{this.state.texto.contenido}</div>
 
                         <br/>
-                        <h4 id="pag"></h4>
-                        <button onClick={this.previouspage}><h4>Previous</h4></button><labael> </labael>
-                        <button onClick={this.nextpage}><h4>Next</h4></button><br/>
-                        <label>Ir a la pagina: </label>
-                        <input type="text" id="num" size="10"></input>
-                        <button type="button" onClick={this.changePag}><h4>Go</h4></button><br/>
-                        <p>Rate</p>
-                        <div id="rate" size="10"></div>
-                        <label>My Rate: </label>
-                        <input id="myRate" size="5"></input>
-                        <button type="button" onClick={this.sendRate}><h4>Send</h4></button>
+                        <div class="btn-group btn-group-lg center-buttons" role="group" aria-label="Basic outlined example">
+                            <button type="button" class="btn btn-outline-primary btn-sm" onClick={this.previouspage}>Anterior</button>
+                            <button disabled="true" type="button" class="btn btn-outline-primary btn-sm" id="pag"></button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onClick={this.nextpage}>Siguiente</button>
+                        </div>
+                        <p></p>
+                        <div class="inline-block">
+                            <div class="inline-block-child">
+                                <input className="form-input" type="text" id="mark" size="20" placeholder="Ir a la página..."></input>
+                            </div>
+                            <div className="inline-block-child">    
+                                <button type="button" class="basic-btn2" onClick={this.changePag}>Ir</button>
+                            </div>
+                            <div class="inline-block-child">
+                                <input className="form-input" type="text" id="mark" size="20" placeholder="Introducir valoración (mín 1, máx 5)"></input>
+                            </div>
+                            <div className="inline-block-child">    
+                                <button type="button" class="basic-btn-rating" onClick={this.sendRate}>Enviar</button>
+                            </div>
+                        </div>
                     </nav>
                 </div>
             </div>

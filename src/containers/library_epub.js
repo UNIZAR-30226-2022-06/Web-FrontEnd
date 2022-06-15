@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import Swal from "sweetalert2";
 import "../css/App.css";
+import Rating from '@mui/material/Rating';
 
 import goToPDF from "../bootstrap-icons/file-earmark-pdf.svg"
 import goBackBtn from "../bootstrap-icons/arrow-left.svg"
@@ -80,7 +81,6 @@ function HomeScreen (props) {
       else{
         console.log(libro)
         console.log(nombreUser)
-        //axios.get(leerLibro + book.nombre + ".pdf" + "/1")
         window.location.href = '/epub-viewer';
       }
     }
@@ -98,20 +98,9 @@ function HomeScreen (props) {
         const libro = localStorage.getItem('nomLibro')
         console.log(libro)
         console.log(nombreUser)
-        //axios.get(leerLibro + book.nombre + ".pdf" + "/1")
         window.location.href = '/share';
       }
     }    
-    
-    const handleRating = (rate) => {
-      const nombreLibro = localStorage.getItem('nomLibro');
-      setRating(rate);
-      console.log(rate);
-      const valoracion = parseInt(rate/20);
-      console.log("valoracion actual: ", valoracion);
-      axios.put(rateUrl + "libro19.epub/", valoracion);
-      // other logic
-    }
 
     const displayBooks = book
           .slice(pagesVisited, pagesVisited + booksPerPage)
@@ -136,6 +125,13 @@ function HomeScreen (props) {
                           <div className="meta price">{book.nombre}</div>
                           <div className="meta autor">{book.autor}</div>
                           <div className="meta edit">{book.editorial}</div>
+                          <Rating 
+                            name="read-only" 
+                            defaultValue={book.valoracion} 
+                            size="large" 
+                            precision={0.25}
+                            readOnly 
+                          />({book.numValoraciones})
                         </div>
                       </div>
                     </div>

@@ -4,7 +4,6 @@ import swal from 'sweetalert';
 import { Link, withRouter, useHistory } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
-import goBackBtn from "../bootstrap-icons/arrow-left.svg"
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/compartirLibro/";
 const userName = localStorage.getItem('nomUsuario')
@@ -81,6 +80,9 @@ class SignIn extends Component {
                             <br></br>
                             <div class="d-grid gap-2"> 
                                 <button type="submit" className="btn btn-primary btn-block btn-lg">Compartir</button>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href={'/library-pdf'} className="btn btn-danger btn-lock btn-lg">Volver</a>
                             </div>
                             <br></br>
                         </form>

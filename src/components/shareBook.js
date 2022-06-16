@@ -82,7 +82,7 @@ class SignIn extends Component {
                                 <button type="submit" className="btn btn-primary btn-block btn-lg">Compartir</button>
                             </div>
                             <div class="d-grid gap-2">
-                                <a href={'/library-pdf'} className="btn btn-danger btn-lock btn-lg">Volver</a>
+                                <a href={'/library-epub'} className="btn btn-danger btn-lock btn-lg">Volver</a>
                             </div>
                             <br></br>
                         </form>

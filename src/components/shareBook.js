@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import swal from 'sweetalert';
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import "../css/profile.css";
 import "../css/App.css";
 
@@ -34,7 +34,6 @@ class SignIn extends Component {
     }
     
     share = async() => {
-        console.log(this.state.email)
         if(this.state.email !== ""){
             await axios.get(baseUrl + userName + '/' + bookName + '/' + this.state.email + "/")
             .catch( () => {
@@ -58,9 +57,6 @@ class SignIn extends Component {
     }
 
     render() {
-        console.log(userName)
-        console.log(bookName)
-
         return (
             <div className="auth-wrapper">
                 <div className="auth-inner">

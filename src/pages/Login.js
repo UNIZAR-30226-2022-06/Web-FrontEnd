@@ -11,10 +11,6 @@ import ShowOffIcon from '@material-ui/icons/VisibilityOff'
 
 const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/Login/";
 
-const regExp = RegExp(
-    /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
-)
-
 class SignIn extends Component {
     constructor(props){
         super(props)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactPaginate from 'react-paginate';
 import Swal from "sweetalert2";
 import "../css/App.css";
@@ -12,16 +12,13 @@ import deleteIcon from "../bootstrap-icons/trash.svg";
 import watchIcon from "../bootstrap-icons/eye.svg";
 import shareIcon from "../bootstrap-icons/share.svg";
 
-const baseUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/";
 const urlEPUB = "https://db-itreader-unizar.herokuapp.com/itreaderApp/LibrosUser/"
 const urlDelBook = "https://db-itreader-unizar.herokuapp.com/itreaderApp/deleteLibroUsuario/"
-const rateUrl = "https://db-itreader-unizar.herokuapp.com/itreaderApp/valorarLibro/";
 
 function HomeScreen (props) {
 
   const [book, setBook] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
-  const [rating, setRating] = useState(0) // initial rating value
 
   const booksPerPage = 20;
   const pagesVisited = pageNumber * booksPerPage;
@@ -72,22 +69,18 @@ function HomeScreen (props) {
 
     const handleLeerLibro = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
-      console.log(nombreUser)
       localStorage.setItem('nomLibro', book.nombre)
       const libro = localStorage.getItem('nomLibro')
       if(localStorage.length == 0){
         window.location.href = '/sign-in';
       }
       else{
-        console.log(libro)
-        console.log(nombreUser)
         window.location.href = '/epub-viewer';
       }
     }
 
     const handleShare = (book) => {
       const nombreUser = localStorage.getItem('nomUsuario')
-      console.log(nombreUser)
       localStorage.setItem('nomLibro', book.nombre)
       const libro = localStorage.getItem('nomLibro')
       if(localStorage.length == 0){
@@ -96,8 +89,6 @@ function HomeScreen (props) {
       else{
         localStorage.setItem('nomLibro', book.nombre)
         const libro = localStorage.getItem('nomLibro')
-        console.log(libro)
-        console.log(nombreUser)
         window.location.href = '/share';
       }
     }    

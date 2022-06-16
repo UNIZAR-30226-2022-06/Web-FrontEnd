@@ -2,6 +2,7 @@
   "name": "itreader_work",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://db-itreader-unizar.herokuapp.com/itreaderApp",
   "dependencies": {
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
